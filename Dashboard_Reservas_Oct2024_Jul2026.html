@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Reservas — Oct 2024 a Jul 2026</title>
+<style>
+  :root{
+    --bg-primary:#f7f7f5; --bg-secondary:#ffffff; --bg-tertiary:#eeeeec;
+    --text-primary:#1a1a1a; --text-secondary:#5c5c58; --text-tertiary:#8c8c86;
+    --border:#e2e2de; --radius:12px;
+    --green:#1D9E75; --amber:#D8A02D; --red:#E24B4A; --blue:#378ADD; --orange:#D85A30; --purple:#7F77DD; --grey:#888780;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg-primary:#151514; --bg-secondary:#1e1e1c; --bg-tertiary:#262624;
+      --text-primary:#f0f0ec; --text-secondary:#b0b0a8; --text-tertiary:#7c7c76;
+      --border:#333330;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg-primary); color:var(--text-primary); line-height:1.4;
+  }
+  .wrap{max-width:1280px; margin:0 auto; padding:28px 24px 60px;}
+  header{margin-bottom:24px;}
+  header h1{font-size:24px; font-weight:600; margin:0 0 4px;}
+  header p{font-size:13px; color:var(--text-secondary); margin:0;}
+  .updated-badge{
+    display:inline-block; font-size:11px; color:var(--green); background:rgba(29,158,117,0.12);
+    padding:3px 10px; border-radius:20px; margin-top:8px; font-weight:500;
+  }
+  .section-title{font-size:15px; font-weight:600; margin:32px 0 12px; color:var(--text-primary);}
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  @media (max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+  .kpi{
+    background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius);
+    padding:14px 16px;
+  }
+  .kpi-label{font-size:12px; color:var(--text-secondary); margin-bottom:4px;}
+  .kpi-value{font-size:22px; font-weight:600; color:var(--text-primary);}
+  .kpi-sub{font-size:11px; color:var(--text-tertiary); margin-top:2px;}
+  .kpi.accent-green{border-color:rgba(29,158,117,0.35);}
+  .kpi.accent-green .kpi-value{color:var(--green);}
+  .kpi.accent-blue .kpi-value{color:var(--blue);}
+  .kpi.accent-amber .kpi-value{color:var(--amber);}
+
+  .callout{
+    background:var(--bg-secondary); border:1px solid var(--border); border-left:4px solid var(--green);
+    border-radius:var(--radius); padding:16px 20px; margin-top:16px; font-size:13.5px; color:var(--text-secondary);
+  }
+  .callout b{color:var(--text-primary);}
+
+  .chart-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;}
+  @media (max-width:900px){.chart-row{grid-template-columns:1fr;}}
+  .chart-card{
+    background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 20px;
+  }
+  .chart-card.full{grid-column:1 / -1;}
+  .chart-title{font-size:13.5px; font-weight:600; margin-bottom:4px; color:var(--text-primary);}
+  .chart-subtitle{font-size:11.5px; color:var(--text-tertiary); margin-bottom:12px;}
+  .legend{display:flex; gap:14px; font-size:11.5px; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap;}
+  .legend-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;}
+
+  table.coupon-table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  table.coupon-table th{
+    text-align:left; color:var(--text-tertiary); font-weight:500; font-size:11px;
+    text-transform:uppercase; padding:6px 8px; border-bottom:1px solid var(--border);
+  }
+  table.coupon-table td{padding:7px 8px; border-bottom:1px solid var(--border); color:var(--text-primary);}
+  table.coupon-table tr:last-child td{border-bottom:none;}
+
+  footer{margin-top:36px; font-size:11px; color:var(--text-tertiary); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Dashboard de Reservas</h1>
+    <p>Periodo analizado: 3 octubre 2024 — 8 julio 2026 · 13,266 reservas registradas</p>
+    <span class="updated-badge">Actualizado con datos al 8 de julio de 2026</span>
+  </header>
+
+  <p class="section-title">Indicadores generales</p>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Total de reservas</div><div class="kpi-value">13,266</div></div>
+    <div class="kpi accent-green"><div class="kpi-label">Reservas efectivas (Finalizada)</div><div class="kpi-value">3,166</div><div class="kpi-sub">23.9% de conversión</div></div>
+    <div class="kpi accent-blue"><div class="kpi-label">Ingreso efectivo total</div><div class="kpi-value">$700,421</div><div class="kpi-sub">solo reservas finalizadas</div></div>
+    <div class="kpi"><div class="kpi-label">Ticket promedio</div><div class="kpi-value">$221.23</div><div class="kpi-sub">2.96 noches promedio</div></div>
+    <div class="kpi"><div class="kpi-label">Viajeros únicos</div><div class="kpi-value">5,287</div></div>
+    <div class="kpi"><div class="kpi-label">Anfitriones únicos</div><div class="kpi-value">1,140</div></div>
+    <div class="kpi accent-green"><div class="kpi-label">Reservas / viajero / mes</div><div class="kpi-value">1.96</div><div class="kpi-sub">promedio global</div></div>
+    <div class="kpi accent-amber"><div class="kpi-label">Crecimiento finalizadas</div><div class="kpi-value">+206%</div><div class="kpi-sub">2do periodo vs 1er periodo</div></div>
+  </div>
+
+  <div class="callout">
+    <b>Aceleración sostenida.</b> El promedio mensual de reservas finalizadas pasó de <b>69.2/mes</b> (oct 2024 – jun 2025) a <b>211.8/mes</b> (jul 2025 – jun 2026), un salto del <b>+206%</b>. Diciembre 2025 sigue siendo el mes pico histórico con 1,345 reservas creadas y $74,904 en ingresos efectivos. Junio 2026 mantiene el ritmo alto (574 creadas, 125 finalizadas); julio 2026 solo tiene 8 días de datos, por lo que su cifra (52 creadas) no es comparable a un mes completo.
+  </div>
+
+  <p class="section-title">Reservas por estatus</p>
+  <div class="chart-card">
+    <div class="legend" id="statusLeg"></div>
+    <div class="chart-row" style="margin-top:0;">
+      <div style="position:relative; height:220px;"><canvas id="statusCountChart"></canvas></div>
+      <div style="position:relative; height:220px;"><canvas id="statusMontoChart"></canvas></div>
+    </div>
+    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">* El alto monto de "Vencida" ($15.27M) refleja reservas que nunca completaron el pago — no representa ingreso real. El ingreso real corresponde a "Finalizada" ($700,421).</p>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">Reservas creadas por mes</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#378ADD"></span>Total creadas</span>
+        <span><span class="legend-dot" style="background:#1D9E75"></span>Finalizadas</span>
+      </div>
+      <div style="position:relative; height:230px;"><canvas id="monthlyChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Ingresos efectivos por mes ($)</div>
+      <div class="legend"><span><span class="legend-dot" style="background:#1D9E75"></span>Monto finalizado</span></div>
+      <div style="position:relative; height:230px;"><canvas id="montoChart"></canvas></div>
+    </div>
+  </div>
+
+  <p class="section-title">Geografía y comportamiento</p>
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">Top 10 destinos (todas las reservas)</div>
+      <div style="position:relative; height:260px;"><canvas id="geoChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Check-ins efectivos por día de la semana</div>
+      <div style="position:relative; height:260px;"><canvas id="dowChart"></canvas></div>
+      <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">Viernes y sábado concentran el 44.7% de los check-ins efectivos.</p>
+    </div>
+  </div>
+
+  <p class="section-title">Cupones de descuento</p>
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="kpi-grid" style="grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Total aplicados</div><div class="kpi-value" style="font-size:18px;">256</div></div>
+        <div class="kpi accent-green" style="padding:10px 12px;"><div class="kpi-label">En efectivas</div><div class="kpi-value" style="font-size:18px;">126</div><div class="kpi-sub">49.2% conversión</div></div>
+        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Códigos únicos</div><div class="kpi-value" style="font-size:18px;">138</div></div>
+        <div class="kpi accent-amber" style="padding:10px 12px;"><div class="kpi-label">No convirtieron</div><div class="kpi-value" style="font-size:18px;">130</div><div class="kpi-sub">50.8% sin efecto</div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Top cupones — total vs reservas efectivas</div>
+      <table class="coupon-table">
+        <thead><tr><th>Código</th><th style="text-align:right;">Total</th><th style="text-align:right;">Efectivas</th><th style="text-align:right;">Conv.</th></tr></thead>
+        <tbody id="couponRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="section-title">Top anfitriones y viajeros</p>
+  <div class="chart-row" style="margin-top:0;">
+    <div class="chart-card">
+      <div class="chart-title">Anfitriones con mayor ingreso efectivo ($)</div>
+      <div style="position:relative; height:280px;"><canvas id="anfitrionChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Viajeros más frecuentes (total reservas)</div>
+      <div style="position:relative; height:280px;"><canvas id="viajeroChart"></canvas></div>
+    </div>
+  </div>
+
+  <p class="section-title">Comportamiento del viajero</p>
+  <div class="chart-card full" style="margin-top:0;">
+    <p style="font-size:13px; font-weight:500; color:var(--text-primary); margin-bottom:2px;">Promedio de reservas por viajero — mensual</p>
+    <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">Oct 2024 – Jul 2026 · reservas totales ÷ viajeros únicos por mes</p>
+    <div style="display:flex; gap:16px; margin-bottom:14px; flex-wrap:wrap;">
+      <div class="kpi" style="padding:10px 14px;"><div class="kpi-label">Promedio global</div><div class="kpi-value" style="font-size:18px;">1.96</div><div class="kpi-sub">res / viajero / mes</div></div>
+      <div class="kpi accent-green" style="padding:10px 14px;"><div class="kpi-label">Mes más alto</div><div class="kpi-value" style="font-size:18px;">2.22</div><div class="kpi-sub">Dic 2025</div></div>
+      <div class="kpi accent-amber" style="padding:10px 14px;"><div class="kpi-label">Mes más bajo (completo)</div><div class="kpi-value" style="font-size:18px;">1.48</div><div class="kpi-sub">Oct 2024</div></div>
+    </div>
+    <div style="position:relative; height:280px;"><canvas id="avgChart"></canvas></div>
+    <div class="legend" style="margin-top:12px; margin-bottom:0;">
+      <span><span class="legend-dot" style="background:#378ADD"></span>Promedio mensual</span>
+      <span><span class="legend-dot" style="background:#888780"></span>Promedio global (1.96)</span>
+    </div>
+    <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">* Julio 2026 (1.44) refleja solo 8 días de datos y no es comparable a un mes completo.</p>
+  </div>
+
+  <footer>Dashboard generado a partir de 3 archivos de reservas (oct 2024 – jul 2026), deduplicados por número de reserva · 13,266 registros únicos</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+const textColor = isDark ? '#b0b0a8' : '#5c5c58';
+const borderBg = isDark ? '#1e1e1c' : '#ffffff';
+Chart.defaults.color = textColor;
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+
+const statusLabels = ["Vencida","Finalizada","Rechazada","Cancelada","Cerrada","Otros"];
+const statusColors = ['#888780','#1D9E75','#E24B4A','#D85A30','#378ADD','#7F77DD'];
+const statusCounts = [3559,3166,2890,2642,835,174];
+const statusMontos = [15270845.3,700421.48,726922.22,1001908.9,915411.86,51949.97];
+
+const leg = document.getElementById('statusLeg');
+statusLabels.forEach((l,i) => {
+  const s = document.createElement('span');
+  s.innerHTML = `<span class="legend-dot" style="background:${statusColors[i]}"></span>${l}`;
+  leg.appendChild(s);
+});
+
+new Chart(document.getElementById('statusCountChart'), {
+  type:'doughnut',
+  data:{ labels:statusLabels, datasets:[{ data:statusCounts, backgroundColor:statusColors, borderWidth:1.5, borderColor:borderBg }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: ${ctx.raw.toLocaleString()} reservas` }}}}
+});
+new Chart(document.getElementById('statusMontoChart'), {
+  type:'doughnut',
+  data:{ labels:statusLabels, datasets:[{ data:statusMontos, backgroundColor:statusColors, borderWidth:1.5, borderColor:borderBg }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: $${Math.round(ctx.raw).toLocaleString()}` }}}}
+});
+
+const monthlyLabels = ["2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07"];
+const monthlyTotal = [172,374,503,207,252,342,547,245,345,634,1103,891,876,951,1345,903,733,851,754,612,574,52];
+const monthlyFin = [39,71,107,40,58,69,87,74,78,179,241,213,214,215,284,204,200,270,218,179,125,1];
+const monthlyMonto = [5837.71,12660.41,22837.56,6802.12,8100.99,12190.51,17883.53,13389.73,19645.4,53770.85,52638.14,51670.6,44431.23,47287.52,74903.53,49991.28,44500.7,63889.74,45392.64,35806.21,16727.83,63.25];
+
+new Chart(document.getElementById('monthlyChart'), {
+  type:'bar',
+  data:{ labels:monthlyLabels, datasets:[
+    { label:'Total creadas', data:monthlyTotal, backgroundColor:'#378ADD', borderRadius:3, order:2 },
+    { label:'Finalizadas', type:'line', data:monthlyFin, borderColor:'#1D9E75', backgroundColor:'#1D9E75', tension:0.3, pointRadius:2, order:1 }
+  ]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
+    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
+});
+
+new Chart(document.getElementById('montoChart'), {
+  type:'bar',
+  data:{ labels:monthlyLabels, datasets:[{ label:'Monto finalizado', data:monthlyMonto, backgroundColor:'#1D9E75', borderRadius:3 }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` $${Math.round(ctx.raw).toLocaleString()}`}} },
+    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor}, ticks:{callback:v=>'$'+v.toLocaleString()} } } }
+});
+
+const geoLabels = ["Miranda","Anzoátegui","Nueva Esparta","Carabobo","Distrito Capital","La Guaira","Falcón","Mérida","Lara","Aragua"];
+const geoCounts = [2354,1897,1875,1749,1105,911,904,583,396,371];
+new Chart(document.getElementById('geoChart'), {
+  type:'bar',
+  data:{ labels:geoLabels, datasets:[{ data:geoCounts, backgroundColor:'#378ADD', borderRadius:3 }] },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw.toLocaleString()} reservas`}} },
+    scales:{ x:{ grid:{color:gridColor} }, y:{ grid:{display:false} } } }
+});
+
+const dowLabels = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+const dowCounts = [331,334,383,483,724,616,295];
+new Chart(document.getElementById('dowChart'), {
+  type:'bar',
+  data:{ labels:dowLabels, datasets:[{ data:dowCounts, backgroundColor:['#378ADD','#378ADD','#378ADD','#378ADD','#1D9E75','#1D9E75','#378ADD'], borderRadius:3 }] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw.toLocaleString()} check-ins`}} },
+    scales:{ x:{ grid:{display:false} }, y:{ grid:{color:gridColor} } } }
+});
+
+const couponRows = [
+  {code:"LLEGODICIEMBRE", total:74, efectivas:14, conv:18.9},
+  {code:"EVENTOSUCRE", total:11, efectivas:0, conv:0.0},
+  {code:"SOFIAGARCIA", total:5, efectivas:0, conv:0.0},
+  {code:"SANJUANLOTIENE", total:5, efectivas:3, conv:60.0},
+  {code:"PROMUEVEPTOLACRUZ", total:4, efectivas:1, conv:25.0},
+  {code:"EDUENCARACAS2", total:3, efectivas:1, conv:33.3},
+  {code:"PROMUEVEVALENCIA", total:3, efectivas:2, conv:66.7},
+  {code:"ESTEICONTIGO", total:2, efectivas:0, conv:0.0}
+];
+const tbody = document.getElementById('couponRows');
+couponRows.forEach(r => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${r.code}</td><td style="text-align:right;">${r.total}</td><td style="text-align:right;">${r.efectivas}</td><td style="text-align:right;">${r.conv}%</td>`;
+  tbody.appendChild(tr);
+});
+
+const hostLabels = ["Sonia Bertinato","Rob Viloria","Manalys García","LEIDY MORALES","Richard Vaz","Félix Duque","Jose Rincon","Gustavo Miguel De Almeida Omaña"];
+const hostValues = [64823.13,38963.74,20393.84,18234.93,15028.08,12305.84,10840.17,10580.15];
+new Chart(document.getElementById('anfitrionChart'), {
+  type:'bar',
+  data:{ labels:hostLabels, datasets:[{ data:hostValues, backgroundColor:'#1D9E75', borderRadius:3 }] },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` $${Math.round(ctx.raw).toLocaleString()}`}} },
+    scales:{ x:{ grid:{color:gridColor}, ticks:{callback:v=>'$'+v.toLocaleString()} }, y:{ grid:{display:false}, ticks:{font:{size:10}} } } }
+});
+
+const travLabels = ["Estei Empresas","VIAJES HUMBOLDT","Salomon Martinez","Braian Antypas","rossaly orellana","Acxel Michalczuk","Juan Perez","Jose Javier Marcano"];
+const travValues = [108,44,43,36,34,31,31,30];
+new Chart(document.getElementById('viajeroChart'), {
+  type:'bar',
+  data:{ labels:travLabels, datasets:[{ data:travValues, backgroundColor:'#7F77DD', borderRadius:3 }] },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw} reservas`}} },
+    scales:{ x:{ grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:10}} } } }
+});
+
+const avgLabels = monthlyLabels;
+const avgValues = [1.483,2.044,2.206,1.63,1.853,2.124,2.018,1.612,2.018,1.887,2.089,2.152,2.101,2.156,2.216,1.938,1.797,1.838,1.928,1.641,1.64,1.444];
+new Chart(document.getElementById('avgChart'), {
+  type:'line',
+  data:{ labels:avgLabels, datasets:[
+    { label:'Promedio mensual', data:avgValues, borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.12)', fill:true, tension:0.3, pointRadius:2 },
+    { label:'Promedio global', data:avgLabels.map(()=>1.96), borderColor:'#888780', borderDash:[5,5], pointRadius:0 }
+  ]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
+    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
+});
+</script>
+</body>
+</html>
