@@ -73,9 +73,24 @@
   table.coupon-table tr:last-child td{border-bottom:none;}
 
   footer{margin-top:36px; font-size:11px; color:var(--text-tertiary); text-align:center;}
+  .wrap{display:none;}
+  .wrap.unlocked{display:block;}
+  #pwInput:focus{outline:none; border-color:var(--green);}
 </style>
 </head>
 <body>
+
+<div id="lockScreen" style="position:fixed; inset:0; background:var(--bg-primary); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px;">
+  <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:16px; padding:36px 32px; max-width:340px; width:100%; text-align:center;">
+    <div style="font-size:28px; margin-bottom:8px;">🔒</div>
+    <h2 style="font-size:17px; margin:0 0 6px; color:var(--text-primary);">Dashboard de Reservas</h2>
+    <p style="font-size:13px; color:var(--text-secondary); margin:0 0 18px;">Ingresa la contraseña para continuar</p>
+    <input id="pwInput" type="password" placeholder="Contraseña" style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-primary); color:var(--text-primary); font-size:14px; margin-bottom:10px; box-sizing:border-box;">
+    <button onclick="checkPw()" style="width:100%; padding:10px; border-radius:8px; border:none; background:var(--green); color:#fff; font-size:14px; font-weight:600; cursor:pointer;">Entrar</button>
+    <p id="pwError" style="font-size:12px; color:var(--red); margin-top:10px; display:none;">Contraseña incorrecta. Intenta de nuevo.</p>
+  </div>
+</div>
+
 <div class="wrap">
 
   <header>
@@ -192,6 +207,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+function initCharts(){
 const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
 const textColor = isDark ? '#b0b0a8' : '#5c5c58';
@@ -308,6 +324,36 @@ new Chart(document.getElementById('avgChart'), {
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
     scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
 });
+} // fin de initCharts
+</script>
+
+<script>
+const DASHBOARD_PASSWORD = "EsteiEstadistico*2026"; // <-- cambia esta contraseña por la que quieras
+
+function unlock(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.querySelector('.wrap').classList.add('unlocked');
+  initCharts();
+}
+
+function checkPw(){
+  const val = document.getElementById('pwInput').value;
+  if (val === DASHBOARD_PASSWORD) {
+    sessionStorage.setItem('dashboardUnlocked', 'true');
+    unlock();
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') checkPw();
+});
+
+if (sessionStorage.getItem('dashboardUnlocked') === 'true') {
+  unlock();
+} else {
+  document.getElementById('lockScreen').style.display = 'flex';
+}
 </script>
 </body>
 </html>
