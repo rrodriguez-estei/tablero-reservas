@@ -3,412 +3,433 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Reservas — Oct 2024 a Jul 2026</title>
+<title>Tablero · Alojamientos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  :root{
-    --bg-primary:#f7f7f5; --bg-secondary:#ffffff; --bg-tertiary:#eeeeec;
-    --text-primary:#1a1a1a; --text-secondary:#5c5c58; --text-tertiary:#8c8c86;
-    --border:#e2e2de; --radius:12px;
-    --green:#1D9E75; --amber:#D8A02D; --red:#E24B4A; --blue:#378ADD; --orange:#D85A30; --purple:#7F77DD; --grey:#888780;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg-primary:#151514; --bg-secondary:#1e1e1c; --bg-tertiary:#262624;
-      --text-primary:#f0f0ec; --text-secondary:#b0b0a8; --text-tertiary:#7c7c76;
-      --border:#333330;
-    }
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg-primary); color:var(--text-primary); line-height:1.4;
-  }
-  .wrap{max-width:1280px; margin:0 auto; padding:28px 24px 60px;}
-  header{margin-bottom:24px;}
-  header h1{font-size:24px; font-weight:600; margin:0 0 4px;}
-  header p{font-size:13px; color:var(--text-secondary); margin:0;}
-  .updated-badge{
-    display:inline-block; font-size:11px; color:var(--green); background:rgba(29,158,117,0.12);
-    padding:3px 10px; border-radius:20px; margin-top:8px; font-weight:500;
-  }
-  .section-title{font-size:15px; font-weight:600; margin:32px 0 12px; color:var(--text-primary);}
-  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
-  @media (max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
-  .kpi{
-    background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius);
-    padding:14px 16px;
-  }
-  .kpi-label{font-size:12px; color:var(--text-secondary); margin-bottom:4px;}
-  .kpi-value{font-size:22px; font-weight:600; color:var(--text-primary);}
-  .kpi-sub{font-size:11px; color:var(--text-tertiary); margin-top:2px;}
-  .kpi.accent-green{border-color:rgba(29,158,117,0.35);}
-  .kpi.accent-green .kpi-value{color:var(--green);}
-  .kpi.accent-blue .kpi-value{color:var(--blue);}
-  .kpi.accent-amber .kpi-value{color:var(--amber);}
+:root{
+  --c-bg:#F7F6F2;--c-surface:#FFFFFF;--c-border:#E4E2DA;
+  --c-text:#1A1917;--c-muted:#6B6962;--c-hint:#A09D97;
+  --c-pub:#0F6E56;--c-pub-bg:#E1F5EE;
+  --c-bor:#BA7517;--c-bor-bg:#FDF3E1;
+  --c-pau:#185FA5;--c-pau-bg:#E6F1FB;
+  --c-sus:#A32D2D;--c-sus-bg:#FCEBEB;
+  --c-purple:#534AB7;--c-purple-bg:#EEEDFE;
+  --c-accent:#2B4C8C;--radius:10px;--radius-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--c-bg);color:var(--c-text);font-size:14px;line-height:1.5;}
 
-  .callout{
-    background:var(--bg-secondary); border:1px solid var(--border); border-left:4px solid var(--green);
-    border-radius:var(--radius); padding:16px 20px; margin-top:16px; font-size:13.5px; color:var(--text-secondary);
-  }
-  .callout b{color:var(--text-primary);}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--c-bg);}
+.login-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:16px;padding:2.5rem 2rem;width:100%;max-width:360px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.login-icon{width:46px;height:46px;background:var(--c-accent);border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;}
+.login-icon svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.login-card h1{font-size:20px;font-weight:700;margin-bottom:4px;letter-spacing:-0.3px;}
+.login-card .sub{font-size:13px;color:var(--c-muted);margin-bottom:1.75rem;}
+.login-card label{display:block;font-size:11px;font-weight:600;color:var(--c-muted);margin-bottom:5px;letter-spacing:0.05em;text-transform:uppercase;}
+.login-card input{width:100%;padding:10px 12px;border:1px solid var(--c-border);border-radius:var(--radius-sm);font-size:14px;background:var(--c-bg);outline:none;transition:border-color 0.15s;}
+.login-card input:focus{border-color:var(--c-accent);}
+.login-btn{width:100%;padding:11px;margin-top:1rem;background:var(--c-accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;transition:opacity 0.15s;letter-spacing:0.01em;}
+.login-btn:hover{opacity:0.87;}
+#login-error{display:none;margin-top:10px;padding:8px 10px;background:var(--c-sus-bg);color:var(--c-sus);border-radius:var(--radius-sm);font-size:12px;text-align:center;}
+.login-footer{margin-top:1.5rem;font-size:11px;color:var(--c-hint);text-align:center;}
 
-  .chart-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;}
-  @media (max-width:900px){.chart-row{grid-template-columns:1fr;}}
-  .chart-card{
-    background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius);
-    padding:18px 20px;
-  }
-  .chart-card.full{grid-column:1 / -1;}
-  .chart-title{font-size:13.5px; font-weight:600; margin-bottom:4px; color:var(--text-primary);}
-  .chart-subtitle{font-size:11.5px; color:var(--text-tertiary); margin-bottom:12px;}
-  .legend{display:flex; gap:14px; font-size:11.5px; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap;}
-  .legend-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;}
+#dashboard{display:none;}
+header{background:var(--c-surface);border-bottom:1px solid var(--c-border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.h-left{display:flex;align-items:center;gap:10px;}
+.h-logo{width:32px;height:32px;background:var(--c-accent);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.h-logo svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.h-title{font-size:14px;font-weight:700;letter-spacing:-0.2px;}
+.h-sub{font-size:11px;color:var(--c-hint);}
+.h-right{display:flex;align-items:center;gap:10px;}
+.data-tag{font-size:11px;color:var(--c-muted);background:var(--c-bg);border:1px solid var(--c-border);border-radius:20px;padding:3px 10px;}
+.btn-out{font-size:12px;color:var(--c-muted);background:none;border:1px solid var(--c-border);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer;}
+.btn-out:hover{background:var(--c-bg);}
 
-  table.coupon-table{width:100%; border-collapse:collapse; font-size:12.5px;}
-  table.coupon-table th{
-    text-align:left; color:var(--text-tertiary); font-weight:500; font-size:11px;
-    text-transform:uppercase; padding:6px 8px; border-bottom:1px solid var(--border);
-  }
-  table.coupon-table td{padding:7px 8px; border-bottom:1px solid var(--border); color:var(--text-primary);}
-  table.coupon-table tr:last-child td{border-bottom:none;}
+main{padding:1.5rem 2rem 4rem;max-width:1180px;margin:0 auto;}
+.sec{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-hint);margin:2rem 0 0.85rem;padding-bottom:0.5rem;border-bottom:1px solid var(--c-border);}
+.sec:first-child{margin-top:0;}
 
-  footer{margin-top:36px; font-size:11px; color:var(--text-tertiary); text-align:center;}
-  .wrap{display:none;}
-  .wrap.unlocked{display:block;}
-  #pwInput:focus{outline:none; border-color:var(--green);}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+.kpi{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:1rem 1.1rem;}
+.kpi-lbl{font-size:11px;color:var(--c-muted);margin-bottom:5px;}
+.kpi-val{font-size:26px;font-weight:800;line-height:1;letter-spacing:-1px;}
+.kpi-sub2{font-size:11px;color:var(--c-hint);margin-top:4px;}
+.pub{color:var(--c-pub);} .bor{color:var(--c-bor);} .pau{color:var(--c-pau);} .sus{color:var(--c-sus);} .pur{color:var(--c-purple);}
+
+.card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:1.1rem 1.25rem;}
+.card-title{font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:0.6rem;letter-spacing:0.01em;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.leg-i{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-muted);}
+.leg-d{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+
+.cruce-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cx{border-radius:var(--radius-sm);padding:1rem;text-align:center;}
+.cx-val{font-size:30px;font-weight:800;line-height:1;letter-spacing:-1px;}
+.cx-lbl{font-size:11px;color:var(--c-muted);margin-top:4px;line-height:1.4;}
+.cx-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px;}
+.alert-s{margin-top:12px;padding:9px 12px;background:#FEF2F2;border-left:3px solid #E24B4A;border-radius:var(--radius-sm);font-size:12px;color:#7F1D1D;line-height:1.5;}
+
+.top-t{width:100%;border-collapse:collapse;}
+.top-t tr{border-bottom:1px solid var(--c-border);}
+.top-t tr:last-child{border-bottom:none;}
+.top-t td{padding:7px 4px;font-size:12px;vertical-align:middle;}
+.top-t td:first-child{color:var(--c-hint);width:22px;font-size:11px;}
+.top-t td:nth-child(2){color:var(--c-text);font-weight:500;}
+.top-t td:last-child{width:180px;}
+.bw{display:flex;align-items:center;gap:6px;}
+.bb{background:var(--c-bg);border-radius:3px;height:6px;flex:1;overflow:hidden;}
+.bf{height:100%;border-radius:3px;}
+.bn{font-size:12px;font-weight:700;color:var(--c-text);min-width:22px;text-align:right;}
+
+.pill-new{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;background:var(--c-pub-bg);color:var(--c-pub);margin-left:6px;vertical-align:middle;}
+
+@media(max-width:640px){
+  main{padding:1rem;}
+  .g2{grid-template-columns:1fr;}
+  header{padding:0 1rem;}
+  .h-sub,.data-tag{display:none;}
+}
 </style>
 </head>
 <body>
 
-<div id="lockScreen" style="position:fixed; inset:0; background:var(--bg-primary); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px;">
-  <div style="background:var(--bg-secondary); border:1px solid var(--border); border-radius:16px; padding:36px 32px; max-width:340px; width:100%; text-align:center;">
-    <div style="font-size:28px; margin-bottom:8px;">🔒</div>
-    <h2 style="font-size:17px; margin:0 0 6px; color:var(--text-primary);">Dashboard de Reservas</h2>
-    <p style="font-size:13px; color:var(--text-secondary); margin:0 0 18px;">Ingresa la contraseña para continuar</p>
-    <input id="pwInput" type="password" placeholder="Contraseña" style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-primary); color:var(--text-primary); font-size:14px; margin-bottom:10px; box-sizing:border-box;">
-    <button onclick="checkPw()" style="width:100%; padding:10px; border-radius:8px; border:none; background:var(--green); color:#fff; font-size:14px; font-weight:600; cursor:pointer;">Entrar</button>
-    <p id="pwError" style="font-size:12px; color:var(--red); margin-top:10px; display:none;">Contraseña incorrecta. Intenta de nuevo.</p>
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <h1>Tablero de Alojamientos</h1>
+    <p class="sub">Ingresa tu contraseña para continuar</p>
+    <label for="pwd">Contraseña</label>
+    <input type="password" id="pwd" placeholder="••••••••••" autocomplete="current-password">
+    <div id="login-error">Contraseña incorrecta. Intenta nuevamente.</div>
+    <button class="login-btn" onclick="doLogin()">Ingresar al tablero</button>
+    <p class="login-footer">Acceso restringido · Solo personal autorizado</p>
   </div>
 </div>
 
-<div class="wrap">
-
+<!-- DASHBOARD -->
+<div id="dashboard">
   <header>
-    <h1>Dashboard de Reservas</h1>
-    <p>Periodo analizado: 3 octubre 2024 — 17 agosto 2026 · 14,105 reservas registradas</p>
-    <span class="updated-badge">Actualizado con datos al 17 de agosto de 2026 · vacío de julio cerrado</span>
+    <div class="h-left">
+      <div class="h-logo">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div>
+        <div class="h-title">Tablero de Alojamientos</div>
+        <div class="h-sub">Reporte gerencial · Venezuela</div>
+      </div>
+    </div>
+    <div class="h-right">
+      <span class="data-tag">Ago 2024 – Ago 2026</span>
+      <button class="btn-out" onclick="doLogout()">Cerrar sesión</button>
+    </div>
   </header>
 
-  <p class="section-title">Indicadores generales</p>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-label">Total de reservas</div><div class="kpi-value">14,105</div></div>
-    <div class="kpi accent-green"><div class="kpi-label">Reservas efectivas (Finalizada)</div><div class="kpi-value">3,261</div><div class="kpi-sub">23.1% de conversión</div></div>
-    <div class="kpi accent-blue"><div class="kpi-label">Ingreso efectivo total</div><div class="kpi-value">$717,625</div><div class="kpi-sub">solo reservas finalizadas</div></div>
-    <div class="kpi"><div class="kpi-label">Ticket promedio</div><div class="kpi-value">$220.06</div><div class="kpi-sub">2.95 noches promedio</div></div>
-    <div class="kpi"><div class="kpi-label">Viajeros únicos</div><div class="kpi-value">5,577</div></div>
-    <div class="kpi"><div class="kpi-label">Anfitriones únicos</div><div class="kpi-value">1,165</div></div>
-    <div class="kpi accent-green"><div class="kpi-label">Reservas / viajero / mes</div><div class="kpi-value">1.96</div><div class="kpi-sub">promedio global</div></div>
-    <div class="kpi accent-amber"><div class="kpi-label">Crecimiento finalizadas</div><div class="kpi-value">+192%</div><div class="kpi-sub">2do periodo vs 1er periodo</div></div>
-    <div class="kpi"><div class="kpi-label">Noches promedio por reserva (general)</div><div class="kpi-value">3.01</div><div class="kpi-sub">todas las reservas, cualquier estatus</div></div>
-    <div class="kpi accent-blue"><div class="kpi-label">Noches promedio (últimos 30 días)</div><div class="kpi-value">2.73</div><div class="kpi-sub">19 jul – 17 ago 2026</div></div>
-  </div>
-
-  <div class="callout">
-    <b>Aceleración sostenida.</b> El promedio mensual de reservas finalizadas pasó de <b>69.2/mes</b> (oct 2024 – jun 2025) a <b>201.9/mes</b> (jul 2025 – jul 2026), un salto del <b>+192%</b>. Diciembre 2025 sigue siendo el mes pico histórico con 1,345 reservas creadas y $74,904 en ingresos efectivos. El vacío de datos del 9 al 19 de julio de 2026 ya fue cerrado con el archivo más reciente: julio 2026 ahora refleja el mes completo (453 creadas, 83 finalizadas). Agosto 2026 sigue siendo parcial, con datos solo hasta el día 17 (438 creadas, 13 finalizadas).
-  </div>
-
-  <p class="section-title">Reservas por estatus</p>
-  <div class="chart-card">
-    <div class="legend" id="statusLeg"></div>
-    <div class="chart-row" style="margin-top:0;">
-      <div style="position:relative; height:220px;"><canvas id="statusCountChart"></canvas></div>
-      <div style="position:relative; height:220px;"><canvas id="statusMontoChart"></canvas></div>
+  <main>
+    <div class="sec">Resumen general</div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-lbl">Total alojamientos</div><div class="kpi-val">2,653</div><div class="kpi-sub2">3 períodos · sin duplicados</div></div>
+      <div class="kpi"><div class="kpi-lbl">Publicados</div><div class="kpi-val pub">1,382</div><div class="kpi-sub2">52.1% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Borradores</div><div class="kpi-val bor">629</div><div class="kpi-sub2">23.7% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Pausados</div><div class="kpi-val pau">341</div><div class="kpi-sub2">12.9% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Suspendidos</div><div class="kpi-val sus">301</div><div class="kpi-sub2">11.3% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Anfitriones únicos</div><div class="kpi-val pur">1,783</div><div class="kpi-sub2">Prom. 1.49 aloj/anfitrión</div></div>
     </div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">* El alto monto de "Vencida" ($15.27M) refleja reservas que nunca completaron el pago — no representa ingreso real. El ingreso real corresponde a "Finalizada" ($700,421).</p>
-  </div>
 
-  <p class="section-title">Actividad reciente — últimos 30 días</p>
-  <div class="chart-card full">
-    <div class="chart-title">Reservas diarias por estatus</div>
-    <div class="chart-subtitle">19 julio – 17 agosto 2026 · barras apiladas por estatus + línea de total · excluye reservas Finalizadas</div>
-    <div class="legend" id="dailyLeg"></div>
-    <div style="position:relative; height:300px;"><canvas id="dailyStatusChart"></canvas></div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">Total del periodo (sin Finalizadas): 624 reservas · Vencida 216 · Rechazada 147 · Cancelada 107 · Esperando Calificación 72 · Aprobada 26 · Cerrada 24 · Otros 32.</p>
-  </div>
-
-  <div class="chart-row">
-    <div class="chart-card">
-      <div class="chart-title">Reservas creadas por mes</div>
-      <div class="legend">
-        <span><span class="legend-dot" style="background:#378ADD"></span>Total creadas</span>
-        <span><span class="legend-dot" style="background:#1D9E75"></span>Aprobadas + Esperando Calificación + Finalizadas</span>
+    <div class="sec">Estado de publicación</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Distribución por status</div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Publicado 52.1%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Borrador 23.7%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Pausado 12.9%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Suspendido 11.3%</span>
+        </div>
+        <div style="position:relative;height:210px;"><canvas id="cStatus" role="img" aria-label="Distribución por status">1382 publicados, 629 borradores, 341 pausados, 301 suspendidos</canvas></div>
       </div>
-      <div style="position:relative; height:230px;"><canvas id="monthlyChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Ingresos efectivos por mes ($)</div>
-      <div class="legend"><span><span class="legend-dot" style="background:#1D9E75"></span>Monto finalizado</span></div>
-      <div style="position:relative; height:230px;"><canvas id="montoChart"></canvas></div>
-    </div>
-  </div>
-
-  <p class="section-title">Geografía y comportamiento</p>
-  <div class="chart-row">
-    <div class="chart-card">
-      <div class="chart-title">Top 10 destinos (todas las reservas)</div>
-      <div style="position:relative; height:260px;"><canvas id="geoChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Check-ins efectivos por día de la semana</div>
-      <div style="position:relative; height:260px;"><canvas id="dowChart"></canvas></div>
-      <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">Viernes y sábado concentran el 42.1% de los check-ins efectivos.</p>
-    </div>
-  </div>
-
-  <p class="section-title">Cupones de descuento</p>
-  <div class="chart-row">
-    <div class="chart-card">
-      <div class="kpi-grid" style="grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Total aplicados</div><div class="kpi-value" style="font-size:18px;">268</div></div>
-        <div class="kpi accent-green" style="padding:10px 12px;"><div class="kpi-label">En efectivas</div><div class="kpi-value" style="font-size:18px;">127</div><div class="kpi-sub">47.4% conversión</div></div>
-        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Códigos únicos</div><div class="kpi-value" style="font-size:18px;">147</div></div>
-        <div class="kpi accent-amber" style="padding:10px 12px;"><div class="kpi-label">No convirtieron</div><div class="kpi-value" style="font-size:18px;">141</div><div class="kpi-sub">52.6% sin efecto</div></div>
+      <div class="card">
+        <div class="card-title">Comparativo por período</div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#7F77DD"></span>P1 Ago 24–Jul 25</span>
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>P2 Ago 25–May 26</span>
+          <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>P3 May 26–Ago 26</span>
+        </div>
+        <div style="position:relative;height:210px;"><canvas id="cPeriod" role="img" aria-label="Comparativo por período">3 períodos comparados</canvas></div>
       </div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Top cupones — total vs reservas efectivas</div>
-      <table class="coupon-table">
-        <thead><tr><th>Código</th><th style="text-align:right;">Total</th><th style="text-align:right;">Efectivas</th><th style="text-align:right;">Conv.</th></tr></thead>
-        <tbody id="couponRows"></tbody>
-      </table>
-    </div>
-  </div>
 
-  <p class="section-title">Top anfitriones y viajeros</p>
-  <div class="chart-row" style="margin-top:0;">
-    <div class="chart-card">
-      <div class="chart-title">Anfitriones con mayor ingreso efectivo ($)</div>
-      <div style="position:relative; height:280px;"><canvas id="anfitrionChart"></canvas></div>
+    <div class="sec">Tendencia de altas mensuales</div>
+    <div class="card">
+      <div class="card-title">Nuevos alojamientos registrados por mes · Ago 2024 – Ago 2026</div>
+      <div style="position:relative;height:190px;"><canvas id="cTrend" role="img" aria-label="Tendencia mensual de alojamientos">Tendencia mensual</canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Viajeros más frecuentes (total reservas)</div>
-      <div style="position:relative; height:280px;"><canvas id="viajeroChart"></canvas></div>
-    </div>
-  </div>
 
-  <p class="section-title">Comportamiento del viajero</p>
-  <div class="chart-card full" style="margin-top:0;">
-    <p style="font-size:13px; font-weight:500; color:var(--text-primary); margin-bottom:2px;">Promedio de reservas por viajero — mensual</p>
-    <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">Oct 2024 – Ago 2026 · reservas totales ÷ viajeros únicos por mes</p>
-    <div style="display:flex; gap:16px; margin-bottom:14px; flex-wrap:wrap;">
-      <div class="kpi" style="padding:10px 14px;"><div class="kpi-label">Promedio global</div><div class="kpi-value" style="font-size:18px;">1.96</div><div class="kpi-sub">res / viajero / mes</div></div>
-      <div class="kpi accent-green" style="padding:10px 14px;"><div class="kpi-label">Mes más alto</div><div class="kpi-value" style="font-size:18px;">2.22</div><div class="kpi-sub">Dic 2025</div></div>
-      <div class="kpi accent-amber" style="padding:10px 14px;"><div class="kpi-label">Mes más bajo (completo)</div><div class="kpi-value" style="font-size:18px;">1.48</div><div class="kpi-sub">Oct 2024</div></div>
+    <div class="sec">Distribución geográfica</div>
+    <div class="card">
+      <div class="card-title">Top 15 estados por número de alojamientos</div>
+      <div style="position:relative;height:440px;"><canvas id="cEstados" role="img" aria-label="Top 15 estados">Estados Venezuela</canvas></div>
     </div>
-    <div style="position:relative; height:280px;"><canvas id="avgChart"></canvas></div>
-    <div class="legend" style="margin-top:12px; margin-bottom:0;">
-      <span><span class="legend-dot" style="background:#378ADD"></span>Promedio mensual</span>
-      <span><span class="legend-dot" style="background:#888780"></span>Promedio global (1.96)</span>
-    </div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">* Julio 2026 (1.98) ya refleja el mes completo tras cerrar el vacío de datos. Agosto 2026 (1.86) solo cubre hasta el día 17 y no es comparable a un mes completo.</p>
-  </div>
 
-  <footer>Dashboard generado a partir de 5 archivos de reservas (oct 2024 – ago 2026), deduplicados por número de reserva · 14,105 registros únicos</footer>
+    <div class="sec" style="margin-top:1.25rem;">Status por estado (top 8)</div>
+    <div class="card">
+      <div class="card-title">Composición por status en los principales estados</div>
+      <div class="leg">
+        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Publicado</span>
+        <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Borrador</span>
+        <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Pausado</span>
+        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Suspendido</span>
+      </div>
+      <div style="position:relative;height:320px;"><canvas id="cEstadoStatus" role="img" aria-label="Status por estado top 8">Status por estado</canvas></div>
+    </div>
+
+    <div class="sec">Plataformas externas y sincronización</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Presencia en otras plataformas</div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#534AB7"></span>Sí · 1,714 (64.6%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 939 (35.4%)</span>
+        </div>
+        <div style="position:relative;height:175px;"><canvas id="cPlat" role="img" aria-label="Presencia otras plataformas">Sí 1714, No 939</canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Sincronización de calendarios</div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Sí · 474 (17.9%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 2,179 (82.1%)</span>
+        </div>
+        <div style="position:relative;height:175px;"><canvas id="cSinc" role="img" aria-label="Sincronización calendarios">Sí 474, No 2179</canvas></div>
+      </div>
+    </div>
+
+    <div class="sec">Análisis de riesgo · doble booking</div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">Cruce: presencia en otras plataformas vs sincronización de calendario</div>
+      <div class="cruce-grid">
+        <div class="cx" style="background:var(--c-pub-bg);">
+          <div class="cx-val" style="color:var(--c-pub);">424</div>
+          <div class="cx-lbl">En otras plataformas<br><strong>y sincronizados</strong></div>
+          <div class="cx-badge" style="background:#C6EFE0;color:#0F6E56;">✓ Sin riesgo</div>
+        </div>
+        <div class="cx" style="background:var(--c-sus-bg);">
+          <div class="cx-val" style="color:var(--c-sus);">1,290</div>
+          <div class="cx-lbl">En otras plataformas<br><strong>SIN sincronizar</strong></div>
+          <div class="cx-badge" style="background:#FECACA;color:#991B1B;">⚠ Riesgo doble booking</div>
+        </div>
+        <div class="cx" style="background:var(--c-pau-bg);">
+          <div class="cx-val" style="color:var(--c-pau);">50</div>
+          <div class="cx-lbl">Sin otras plataformas<br><strong>pero sincronizados</strong></div>
+          <div class="cx-badge" style="background:#BFDBFE;color:#1E40AF;">ℹ Revisar config.</div>
+        </div>
+        <div class="cx" style="background:#F1EFE8;">
+          <div class="cx-val" style="color:#888780;">889</div>
+          <div class="cx-lbl">Sin otras plataformas<br><strong>no sincronizados</strong></div>
+          <div class="cx-badge" style="background:#E4E2DA;color:#5F5E5A;">Canal único</div>
+        </div>
+      </div>
+      <div class="alert-s">
+        <strong>Alerta crítica:</strong> 1,290 alojamientos (48.6% del portafolio) operan en otras plataformas sin sincronización de calendario activa — exposición directa a conflictos de reserva.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Riesgo de doble booking por status del alojamiento</div>
+      <div class="leg">
+        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Otras plat. + sinc.</span>
+        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Otras plat. sin sinc.</span>
+        <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Sin otras plat. + sinc.</span>
+        <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>Sin otras plat. sin sinc.</span>
+      </div>
+      <div style="position:relative;height:225px;"><canvas id="cCruce" role="img" aria-label="Cruce plataformas sincronizacion por status">Cruce por status</canvas></div>
+    </div>
+
+    <div class="sec">Anfitriones</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Top 10 anfitriones por alojamientos</div>
+        <table class="top-t"><tbody id="top10body"></tbody></table>
+      </div>
+      <div class="card">
+        <div class="card-title">Distribución por tamaño de portafolio</div>
+        <div class="leg">
+          <span class="leg-i"><span class="leg-d" style="background:#B5D4F4"></span>Solo 1 · 77.3%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>2–5 · 20.7%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#185FA5"></span>6–10 · 1.6%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#0C447C"></span>11+ · 0.4%</span>
+        </div>
+        <div style="position:relative;height:185px;"><canvas id="cAnfDist" role="img" aria-label="Distribución anfitriones">Distribución portafolio</canvas></div>
+        <div style="margin-top:12px;padding:9px 12px;background:var(--c-bg);border-radius:var(--radius-sm);font-size:11px;color:var(--c-muted);">
+          <strong style="color:var(--c-text);">1,783</strong> anfitriones únicos · promedio <strong style="color:var(--c-text);">1.49</strong> alojamientos por anfitrión
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">Onboarding</div>
+    <div class="card" style="max-width:400px;">
+      <div class="card-title">Dirección de facturación asignada</div>
+      <div class="leg">
+        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Sin asignar · 2,470 (93.1%)</span>
+        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Asignada · 183 (6.9%)</span>
+      </div>
+      <div style="position:relative;height:175px;"><canvas id="cFact" role="img" aria-label="Dirección de facturación">Facturación asignada 183, sin asignar 2470</canvas></div>
+    </div>
+
+    <p style="margin-top:3rem;font-size:11px;color:var(--c-hint);text-align:center;">
+      Datos consolidados de 3 períodos · 2,653 alojamientos · 1,783 anfitriones únicos · Actualizado ago 2026
+    </p>
+  </main>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-function initCharts(){
-const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
-const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-const textColor = isDark ? '#b0b0a8' : '#5c5c58';
-const borderBg = isDark ? '#1e1e1c' : '#ffffff';
-Chart.defaults.color = textColor;
-Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+const HASH = "84642d5e6cbfdd10c7158f74a95839c6b73e930d6e1c9c8cd4ac285a09acf83e";
 
-const statusLabels = ["Vencida","Finalizada","Rechazada","Cancelada","Cerrada","Otros"];
-const statusColors = ['#888780','#1D9E75','#E24B4A','#D85A30','#378ADD','#7F77DD'];
-const statusCounts = [3820,3261,3066,2782,864,312];
-const statusMontos = [15323559.71,717624.65,762569.12,1040425.35,921771.12,99681.96];
-
-const leg = document.getElementById('statusLeg');
-statusLabels.forEach((l,i) => {
-  const s = document.createElement('span');
-  s.innerHTML = `<span class="legend-dot" style="background:${statusColors[i]}"></span>${l}`;
-  leg.appendChild(s);
-});
-
-new Chart(document.getElementById('statusCountChart'), {
-  type:'doughnut',
-  data:{ labels:statusLabels, datasets:[{ data:statusCounts, backgroundColor:statusColors, borderWidth:1.5, borderColor:borderBg }] },
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: ${ctx.raw.toLocaleString()} reservas` }}}}
-});
-new Chart(document.getElementById('statusMontoChart'), {
-  type:'doughnut',
-  data:{ labels:statusLabels, datasets:[{ data:statusMontos, backgroundColor:statusColors, borderWidth:1.5, borderColor:borderBg }] },
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: $${Math.round(ctx.raw).toLocaleString()}` }}}}
-});
-
-const dailyLabels = ["19-Jul","20-Jul","21-Jul","22-Jul","23-Jul","24-Jul","25-Jul","26-Jul","27-Jul","28-Jul","29-Jul","30-Jul","31-Jul","01-Ago","02-Ago","03-Ago","04-Ago","05-Ago","06-Ago","07-Ago","08-Ago","09-Ago","10-Ago","11-Ago","12-Ago","13-Ago","14-Ago","15-Ago","16-Ago","17-Ago"];
-const dailySeries = {
-  "Vencida":                [5,13,5,7,10,3,5,2,2,9,10,7,3,14,6,4,8,9,8,10,7,11,9,3,7,15,10,7,6,1],
-  "Aprobada":               [0,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,2,0,5,2,0,2,1,1,3,2,2,0],
-  "Rechazada":              [2,6,4,5,3,3,1,4,1,3,0,9,5,7,4,4,8,1,4,3,12,6,10,6,7,8,10,4,6,1],
-  "Cancelada":              [0,2,6,5,5,1,6,1,3,2,3,2,5,4,0,5,1,3,1,4,4,8,2,11,4,10,2,3,4,0],
-  "Cerrada":                [0,2,0,1,0,2,1,1,0,0,0,0,0,0,0,0,1,0,7,0,1,1,2,1,2,0,2,0,0,0],
-  "Esperando Calificación": [0,0,0,0,2,0,0,1,1,1,0,0,6,3,3,4,2,2,5,6,3,2,5,8,5,6,2,4,1,0],
-  "Otros":                  [0,0,0,2,0,1,0,0,0,0,3,1,1,2,0,0,0,0,0,2,2,0,1,4,4,1,1,3,3,1]
-};
-const dailyColors = {
-  "Vencida":"#888780", "Aprobada":"#1D9E75", "Rechazada":"#E24B4A", "Cancelada":"#D85A30",
-  "Cerrada":"#378ADD", "Esperando Calificación":"#7F77DD", "Otros":"#D8A02D"
-};
-const dailyLeg = document.getElementById('dailyLeg');
-Object.keys(dailySeries).forEach(k => {
-  const s = document.createElement('span');
-  s.innerHTML = `<span class="legend-dot" style="background:${dailyColors[k]}"></span>${k}`;
-  dailyLeg.appendChild(s);
-});
-const totalLegDot = document.createElement('span');
-totalLegDot.innerHTML = `<span class="legend-dot" style="background:${textColor}"></span>Total`;
-dailyLeg.appendChild(totalLegDot);
-
-const dailyTotals = dailyLabels.map((_,i) => Object.keys(dailySeries).reduce((sum,k) => sum + dailySeries[k][i], 0));
-const dailyDatasets = Object.keys(dailySeries).map(k => ({
-  label:k, data:dailySeries[k], backgroundColor:dailyColors[k], stack:'a', borderRadius:2
-}));
-dailyDatasets.push({
-  label:'Total', data:dailyTotals, type:'line', borderColor:textColor, backgroundColor:textColor,
-  tension:0.3, pointRadius:2, order:0
-});
-new Chart(document.getElementById('dailyStatusChart'), {
-  type:'bar',
-  data:{ labels:dailyLabels, datasets:dailyDatasets },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
-    scales:{
-      x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}}, stacked:true },
-      y:{ grid:{color:gridColor}, stacked:true }
-    }
-  }
-});
-
-const monthlyLabels = ["2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"];
-const monthlyTotal = [172,374,503,207,252,342,547,245,345,634,1103,891,876,951,1345,903,733,851,754,612,574,453,438];
-const monthlyAprobada = [39,71,107,40,58,69,87,74,78,179,241,213,214,215,284,204,201,271,223,212,196,117,95];
-const monthlyMonto = [5837.71,12660.41,22837.56,6802.12,8100.99,12190.51,17883.53,13389.73,19645.4,53770.85,52638.14,51670.6,44431.23,47287.52,74903.53,49991.28,44500.7,63889.74,45392.64,35806.21,16727.83,15332.91,1933.51];
-
-new Chart(document.getElementById('monthlyChart'), {
-  type:'bar',
-  data:{ labels:monthlyLabels, datasets:[
-    { label:'Total creadas', data:monthlyTotal, backgroundColor:'#378ADD', borderRadius:3, order:2 },
-    { label:'Aprobadas + Esperando Calificación + Finalizadas', type:'line', data:monthlyAprobada, borderColor:'#1D9E75', backgroundColor:'#1D9E75', tension:0.3, pointRadius:2, order:1 }
-  ]},
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
-    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
-});
-
-new Chart(document.getElementById('montoChart'), {
-  type:'bar',
-  data:{ labels:monthlyLabels, datasets:[{ label:'Monto finalizado', data:monthlyMonto, backgroundColor:'#1D9E75', borderRadius:3 }] },
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` $${Math.round(ctx.raw).toLocaleString()}`}} },
-    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor}, ticks:{callback:v=>'$'+v.toLocaleString()} } } }
-});
-
-const geoLabels = ["Miranda","Anzoátegui","Nueva Esparta","Carabobo","Distrito Capital","Falcón","La Guaira","Mérida","Lara","Aragua"];
-const geoCounts = [2510,2022,2006,1929,1182,926,912,626,432,389];
-new Chart(document.getElementById('geoChart'), {
-  type:'bar',
-  data:{ labels:geoLabels, datasets:[{ data:geoCounts, backgroundColor:'#378ADD', borderRadius:3 }] },
-  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw.toLocaleString()} reservas`}} },
-    scales:{ x:{ grid:{color:gridColor} }, y:{ grid:{display:false} } } }
-});
-
-const dowLabels = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
-const dowCounts = [340,349,395,498,745,629,305];
-new Chart(document.getElementById('dowChart'), {
-  type:'bar',
-  data:{ labels:dowLabels, datasets:[{ data:dowCounts, backgroundColor:['#378ADD','#378ADD','#378ADD','#378ADD','#1D9E75','#1D9E75','#378ADD'], borderRadius:3 }] },
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw.toLocaleString()} check-ins`}} },
-    scales:{ x:{ grid:{display:false} }, y:{ grid:{color:gridColor} } } }
-});
-
-const couponRows = [
-  {code:"LLEGODICIEMBRE", total:74, efectivas:14, conv:18.9},
-  {code:"EVENTOSUCRE", total:11, efectivas:0, conv:0.0},
-  {code:"SOFIAGARCIA", total:5, efectivas:0, conv:0.0},
-  {code:"SANJUANLOTIENE", total:5, efectivas:3, conv:60.0},
-  {code:"PROMUEVEPTOLACRUZ", total:4, efectivas:1, conv:25.0},
-  {code:"EDUENCARACAS2", total:3, efectivas:1, conv:33.3},
-  {code:"PROMUEVEVALENCIA", total:3, efectivas:2, conv:66.7},
-  {code:"ESTEICONTIGO", total:2, efectivas:0, conv:0.0}
-];
-const tbody = document.getElementById('couponRows');
-couponRows.forEach(r => {
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${r.code}</td><td style="text-align:right;">${r.total}</td><td style="text-align:right;">${r.efectivas}</td><td style="text-align:right;">${r.conv}%</td>`;
-  tbody.appendChild(tr);
-});
-
-const hostLabels = ["Sonia Bertinato","Rob Viloria","Manalys García","LEIDY MORALES","Richard Vaz","Félix Duque","Jose Rincon","Gustavo Miguel De Almeida Omaña"];
-const hostValues = [67387.63,39308.74,20393.84,18234.93,15028.08,12374.84,10840.17,10580.15];
-new Chart(document.getElementById('anfitrionChart'), {
-  type:'bar',
-  data:{ labels:hostLabels, datasets:[{ data:hostValues, backgroundColor:'#1D9E75', borderRadius:3 }] },
-  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` $${Math.round(ctx.raw).toLocaleString()}`}} },
-    scales:{ x:{ grid:{color:gridColor}, ticks:{callback:v=>'$'+v.toLocaleString()} }, y:{ grid:{display:false}, ticks:{font:{size:10}} } } }
-});
-
-const travLabels = ["Estei Empresas","VIAJES HUMBOLDT","Salomon Martinez","Kenji Martinez","Carlos Marcano","Braian Antypas","Acxel Michalczuk","rossaly orellana"];
-const travValues = [108,44,43,37,37,36,34,34];
-new Chart(document.getElementById('viajeroChart'), {
-  type:'bar',
-  data:{ labels:travLabels, datasets:[{ data:travValues, backgroundColor:'#7F77DD', borderRadius:3 }] },
-  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw} reservas`}} },
-    scales:{ x:{ grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:10}} } } }
-});
-
-const avgLabels = monthlyLabels;
-const avgValues = [1.483,2.044,2.206,1.63,1.853,2.124,2.018,1.612,2.018,1.887,2.089,2.152,2.101,2.156,2.216,1.938,1.797,1.838,1.928,1.641,1.64,1.978,1.856];
-new Chart(document.getElementById('avgChart'), {
-  type:'line',
-  data:{ labels:avgLabels, datasets:[
-    { label:'Promedio mensual', data:avgValues, borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.12)', fill:true, tension:0.3, pointRadius:2 },
-    { label:'Promedio global', data:avgLabels.map(()=>1.96), borderColor:'#888780', borderDash:[5,5], pointRadius:0 }
-  ]},
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
-    scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
-});
-} // fin de initCharts
-</script>
-
-<script>
-const DASHBOARD_PASSWORD = "EsteiEstadistico*2026"; // <-- cambia esta contraseña por la que quieras
-
-function unlock(){
-  document.getElementById('lockScreen').style.display = 'none';
-  document.querySelector('.wrap').classList.add('unlocked');
-  initCharts();
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
 
-function checkPw(){
-  const val = document.getElementById('pwInput').value;
-  if (val === DASHBOARD_PASSWORD) {
-    sessionStorage.setItem('dashboardUnlocked', 'true');
-    unlock();
+async function doLogin() {
+  const pwd = document.getElementById("pwd").value;
+  if (!pwd) return;
+  const h = await sha256(pwd);
+  if (h === HASH) {
+    sessionStorage.setItem("auth","1");
+    document.getElementById("login-screen").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    buildCharts();
   } else {
-    document.getElementById('pwError').style.display = 'block';
+    document.getElementById("login-error").style.display="block";
+    document.getElementById("pwd").value="";
+    document.getElementById("pwd").focus();
   }
 }
-document.getElementById('pwInput').addEventListener('keydown', function(e){
-  if (e.key === 'Enter') checkPw();
+
+function doLogout() {
+  sessionStorage.removeItem("auth");
+  document.getElementById("dashboard").style.display="none";
+  document.getElementById("login-screen").style.display="flex";
+  document.getElementById("pwd").value="";
+}
+
+document.getElementById("pwd").addEventListener("keydown", e => {
+  if(e.key==="Enter") doLogin();
 });
 
-if (sessionStorage.getItem('dashboardUnlocked') === 'true') {
-  unlock();
-} else {
-  document.getElementById('lockScreen').style.display = 'flex';
+if(sessionStorage.getItem("auth")==="1") {
+  document.getElementById("login-screen").style.display="none";
+  document.getElementById("dashboard").style.display="block";
+  document.addEventListener("DOMContentLoaded", buildCharts);
+  buildCharts();
+}
+
+let chartsBuilt = false;
+function buildCharts() {
+  if(chartsBuilt) return;
+  chartsBuilt = true;
+
+  const gc = {responsive:true,maintainAspectRatio:false};
+  const gr = {color:"rgba(128,128,128,0.1)"};
+
+  new Chart(document.getElementById("cStatus"),{
+    type:"doughnut",
+    data:{labels:["Publicado","Borrador","Pausado","Suspendido"],datasets:[{data:[1382,629,341,301],backgroundColor:["#1D9E75","#EF9F27","#378ADD","#E24B4A"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"62%",plugins:{legend:{display:false}}}
+  });
+
+  new Chart(document.getElementById("cPeriod"),{
+    type:"bar",
+    data:{
+      labels:["Publicado","Borrador","Pausado","Suspendido"],
+      datasets:[
+        {label:"P1",data:[815,350,273,254],backgroundColor:"#7F77DD"},
+        {label:"P2",data:[499,244,66,47],backgroundColor:"#1D9E75"},
+        {label:"P3",data:[68,35,2,0],backgroundColor:"#EF9F27"}
+      ]
+    },
+    options:{...gc,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:11}},grid:gr},y:{grid:gr,ticks:{font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById("cTrend"),{
+    type:"line",
+    data:{
+      labels:["Ago 24", "Sep 24", "Oct 24", "Nov 24", "Dic 24", "Ene 25", "Feb 25", "Mar 25", "Abr 25", "May 25", "Jun 25", "Jul 25", "Ago 25", "Sep 25", "Oct 25", "Nov 25", "Dic 25", "Ene 26", "Feb 26", "Mar 26", "Abr 26", "May 26", "Jun 26", "Jul 26", "Ago 26"],
+      datasets:[{label:"Altas",data:[194, 326, 188, 137, 123, 158, 110, 88, 101, 83, 69, 115, 105, 85, 81, 79, 95, 74, 79, 109, 75, 79, 37, 37, 26],borderColor:"#378ADD",backgroundColor:"rgba(55,138,221,0.07)",tension:0.3,fill:true,pointRadius:3,pointHoverRadius:5,borderWidth:2}]},
+    options:{...gc,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},autoSkip:false,maxRotation:45},grid:gr},y:{grid:gr,ticks:{font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById("cEstados"),{
+    type:"bar",
+    data:{
+      labels:["Nueva Esparta", "Miranda", "Falc\u00f3n", "Anzo\u00e1tegui", "Carabobo", "La Guaira", "M\u00e9rida", "Distrito Capital", "Aragua", "Lara", "T\u00e1chira", "Monagas", "Bol\u00edvar", "Zulia", "Sucre"],
+      datasets:[{label:"Alojamientos",data:[557, 400, 339, 260, 186, 169, 161, 152, 106, 58, 46, 43, 41, 38, 31],backgroundColor:"#534AB7",borderRadius:3}]},
+    options:{...gc,indexAxis:"y",plugins:{legend:{display:false}},scales:{x:{grid:gr,ticks:{font:{size:11}}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
+  });
+
+  new Chart(document.getElementById("cEstadoStatus"),{
+    type:"bar",
+    data:{
+      labels:["Nueva Esparta", "Miranda", "Falc\u00f3n", "Anzo\u00e1tegui", "Carabobo", "La Guaira", "M\u00e9rida", "Dto. Capital"],
+      datasets:[
+        {label:"Publicado",data:[297, 191, 156, 114, 98, 93, 100, 80],backgroundColor:"#1D9E75"},
+        {label:"Borrador",data:[113, 86, 116, 61, 37, 41, 30, 41],backgroundColor:"#EF9F27"},
+        {label:"Pausado",data:[72, 72, 28, 41, 32, 10, 20, 22],backgroundColor:"#378ADD"},
+        {label:"Suspendido",data:[75, 51, 39, 44, 19, 25, 11, 9],backgroundColor:"#E24B4A"}
+      ]
+    },
+    options:{...gc,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{font:{size:11}},grid:gr},y:{stacked:true,grid:gr,ticks:{font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById("cPlat"),{
+    type:"doughnut",
+    data:{labels:["Sí","No"],datasets:[{data:[1714,939],backgroundColor:["#534AB7","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
+  });
+
+  new Chart(document.getElementById("cSinc"),{
+    type:"doughnut",
+    data:{labels:["Sí","No"],datasets:[{data:[474,2179],backgroundColor:["#1D9E75","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
+  });
+
+  new Chart(document.getElementById("cCruce"),{
+    type:"bar",
+    data:{
+      labels:["Publicado", "Borrador", "Pausado", "Suspendido"],
+      datasets:[
+        {label:"Otras plat. + sinc.",data:[360, 1, 32, 31],backgroundColor:"#1D9E75"},
+        {label:"Otras plat. sin sinc.",data:[625, 302, 194, 169],backgroundColor:"#E24B4A"},
+        {label:"Sin otras plat. + sinc.",data:[44, 0, 3, 3],backgroundColor:"#378ADD"},
+        {label:"Sin otras plat. sin sinc.",data:[353, 326, 112, 98],backgroundColor:"#B4B2A9"}
+      ]
+    },
+    options:{...gc,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:gr,ticks:{font:{size:11}}},y:{stacked:true,grid:gr,ticks:{font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById("cAnfDist"),{
+    type:"doughnut",
+    data:{
+      labels:["Solo 1","2–5 aloj.","6–10 aloj.","11+ aloj."],
+      datasets:[{data:[1378, 369, 28, 8],backgroundColor:["#B5D4F4","#378ADD","#185FA5","#0C447C"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"55%",plugins:{legend:{display:false}}}
+  });
+
+  new Chart(document.getElementById("cFact"),{
+    type:"doughnut",
+    data:{labels:["Sin asignar","Asignada"],datasets:[{data:[2470,183],backgroundColor:["#E24B4A","#1D9E75"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
+  });
+
+  const top10 = [["Rob Viloria", 34], ["HyH Asesor\u00eda Inmobiliaria", 24], ["Eduardo Escalona", 16], ["Maria eugenia", 14], ["Jose Rincon", 12], ["Valeria Gonzalez", 11], ["GoUppers LLC", 11], ["Jasmin Rojas", 11], ["Ordalys Villafa\u00f1e", 10], ["Livia Ramos", 9]];
+  const colors10 = ["#534AB7","#7F77DD","#AFA9EC","#1D9E75","#5DCAA5","#378ADD","#85B7EB","#EF9F27","#FAC775","#E24B4A"];
+  const maxV = top10[0][1];
+  const tbody = document.getElementById("top10body");
+  top10.forEach(([name,cnt],i) => {
+    const pct = Math.round(cnt/maxV*100);
+    tbody.innerHTML += `<tr><td>${i+1}</td><td>${name}</td><td><div class="bw"><div class="bb"><div class="bf" style="width:${pct}%;background:${colors10[i]};"></div></div><span class="bn">${cnt}</span></div></td></tr>`;
+  });
 }
 </script>
 </body>
