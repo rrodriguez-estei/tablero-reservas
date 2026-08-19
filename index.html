@@ -141,7 +141,7 @@
       <div class="chart-title">Reservas creadas por mes</div>
       <div class="legend">
         <span><span class="legend-dot" style="background:#378ADD"></span>Total creadas</span>
-        <span><span class="legend-dot" style="background:#1D9E75"></span>Aprobadas</span>
+        <span><span class="legend-dot" style="background:#1D9E75"></span>Aprobadas + Esperando Calificación + Finalizadas</span>
       </div>
       <div style="position:relative; height:230px;"><canvas id="monthlyChart"></canvas></div>
     </div>
@@ -296,14 +296,14 @@ new Chart(document.getElementById('dailyStatusChart'), {
 
 const monthlyLabels = ["2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"];
 const monthlyTotal = [172,374,503,207,252,342,547,245,345,634,1103,891,876,951,1345,903,733,851,754,612,574,453,438];
-const monthlyAprobada = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,14,23,13,21];
+const monthlyAprobada = [39,71,107,40,58,69,87,74,78,179,241,213,214,215,284,204,201,271,223,212,196,117,95];
 const monthlyMonto = [5837.71,12660.41,22837.56,6802.12,8100.99,12190.51,17883.53,13389.73,19645.4,53770.85,52638.14,51670.6,44431.23,47287.52,74903.53,49991.28,44500.7,63889.74,45392.64,35806.21,16727.83,15332.91,1933.51];
 
 new Chart(document.getElementById('monthlyChart'), {
   type:'bar',
   data:{ labels:monthlyLabels, datasets:[
     { label:'Total creadas', data:monthlyTotal, backgroundColor:'#378ADD', borderRadius:3, order:2 },
-    { label:'Aprobadas', type:'line', data:monthlyAprobada, borderColor:'#1D9E75', backgroundColor:'#1D9E75', tension:0.3, pointRadius:2, order:1 }
+    { label:'Aprobadas + Esperando Calificación + Finalizadas', type:'line', data:monthlyAprobada, borderColor:'#1D9E75', backgroundColor:'#1D9E75', tension:0.3, pointRadius:2, order:1 }
   ]},
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} },
     scales:{ x:{ grid:{display:false}, ticks:{maxRotation:60,minRotation:60,font:{size:9}} }, y:{ grid:{color:gridColor} } } }
