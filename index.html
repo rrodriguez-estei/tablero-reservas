@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tablero · Alojamientos</title>
+<title>Tablero · Reservas</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root{
@@ -58,6 +58,7 @@ main{padding:1.5rem 2rem 4rem;max-width:1180px;margin:0 auto;}
 
 .card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:1.1rem 1.25rem;}
 .card-title{font-size:12px;font-weight:700;color:var(--c-text);margin-bottom:0.6rem;letter-spacing:0.01em;}
+.card-note{font-size:11px;color:var(--c-hint);margin:-0.3rem 0 0.75rem;line-height:1.5;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
 .leg-i{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-muted);}
@@ -100,7 +101,7 @@ main{padding:1.5rem 2rem 4rem;max-width:1180px;margin:0 auto;}
     <div class="login-icon">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     </div>
-    <h1>Tablero de Alojamientos</h1>
+    <h1>Tablero de Reservas</h1>
     <p class="sub">Ingresa tu contraseña para continuar</p>
     <label for="pwd">Contraseña</label>
     <input type="password" id="pwd" placeholder="••••••••••" autocomplete="current-password">
@@ -118,12 +119,12 @@ main{padding:1.5rem 2rem 4rem;max-width:1180px;margin:0 auto;}
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
       <div>
-        <div class="h-title">Tablero de Alojamientos</div>
+        <div class="h-title">Tablero de Reservas</div>
         <div class="h-sub">Reporte gerencial · Venezuela</div>
       </div>
     </div>
     <div class="h-right">
-      <span class="data-tag">Ago 2024 – Ago 2026</span>
+      <span class="data-tag">Oct 2024 – Ago 2026</span>
       <button class="btn-out" onclick="doLogout()">Cerrar sesión</button>
     </div>
   </header>
@@ -131,160 +132,154 @@ main{padding:1.5rem 2rem 4rem;max-width:1180px;margin:0 auto;}
   <main>
     <div class="sec">Resumen general</div>
     <div class="kpi-row">
-      <div class="kpi"><div class="kpi-lbl">Total alojamientos</div><div class="kpi-val">2,653</div><div class="kpi-sub2">3 períodos · sin duplicados</div></div>
-      <div class="kpi"><div class="kpi-lbl">Publicados</div><div class="kpi-val pub">1,382</div><div class="kpi-sub2">52.1% del total</div></div>
-      <div class="kpi"><div class="kpi-lbl">Borradores</div><div class="kpi-val bor">629</div><div class="kpi-sub2">23.7% del total</div></div>
-      <div class="kpi"><div class="kpi-lbl">Pausados</div><div class="kpi-val pau">341</div><div class="kpi-sub2">12.9% del total</div></div>
-      <div class="kpi"><div class="kpi-lbl">Suspendidos</div><div class="kpi-val sus">301</div><div class="kpi-sub2">11.3% del total</div></div>
-      <div class="kpi"><div class="kpi-lbl">Anfitriones únicos</div><div class="kpi-val pur">1,783</div><div class="kpi-sub2">Prom. 1.49 aloj/anfitrión</div></div>
+      <div class="kpi"><div class="kpi-lbl">Total reservas</div><div class="kpi-val">13,564</div><div class="kpi-sub2">6 reportes consolidados · sin duplicados</div></div>
+      <div class="kpi"><div class="kpi-lbl">Completadas</div><div class="kpi-val pub">4,035</div><div class="kpi-sub2">29.7% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Canceladas / Rechazadas</div><div class="kpi-val sus">5,674</div><div class="kpi-sub2">41.8% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Vencidas</div><div class="kpi-val bor">3,627</div><div class="kpi-sub2">26.7% del total</div></div>
+      <div class="kpi"><div class="kpi-lbl">Ingresos confirmados</div><div class="kpi-val pau">$815,758</div><div class="kpi-sub2">3,590 reservas pagadas</div></div>
+      <div class="kpi"><div class="kpi-lbl">Viajeros únicos</div><div class="kpi-val pur">5,389</div><div class="kpi-sub2">1,157 anfitriones · 2.52 reservas/viajero</div></div>
     </div>
 
-    <div class="sec">Estado de publicación</div>
+    <div class="sec">Estatus de las reservas</div>
     <div class="g2">
       <div class="card">
-        <div class="card-title">Distribución por status</div>
+        <div class="card-title">Distribución por estatus de reserva</div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Publicado 52.1%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Borrador 23.7%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Pausado 12.9%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Suspendido 11.3%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Completada 29.7%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Rechazada 22.0%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Cancelada 19.9%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Vencida 26.7%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>En proceso/Otros 1.7%</span>
         </div>
-        <div style="position:relative;height:210px;"><canvas id="cStatus" role="img" aria-label="Distribución por status">1382 publicados, 629 borradores, 341 pausados, 301 suspendidos</canvas></div>
+        <div style="position:relative;height:210px;"><canvas id="cEstatusReserva" role="img" aria-label="Distribución por estatus de reserva">4035 completadas, 2980 rechazadas, 2694 canceladas, 3627 vencidas, 228 en proceso u otros</canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">Comparativo por período</div>
+        <div class="card-title">Distribución por estatus de pago</div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:#7F77DD"></span>P1 Ago 24–Jul 25</span>
-          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>P2 Ago 25–May 26</span>
-          <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>P3 May 26–Ago 26</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>Por Pagar 72.7%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Completado 26.5%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#534AB7"></span>Otros 0.8%</span>
         </div>
-        <div style="position:relative;height:210px;"><canvas id="cPeriod" role="img" aria-label="Comparativo por período">3 períodos comparados</canvas></div>
+        <div style="position:relative;height:210px;"><canvas id="cEstatusPago" role="img" aria-label="Distribución por estatus de pago">9860 por pagar, 3590 completado, 114 otros</canvas></div>
       </div>
     </div>
 
-    <div class="sec">Tendencia de altas mensuales</div>
+    <div class="sec">Tendencia de reservas mensuales</div>
     <div class="card">
-      <div class="card-title">Nuevos alojamientos registrados por mes · Ago 2024 – Ago 2026</div>
-      <div style="position:relative;height:190px;"><canvas id="cTrend" role="img" aria-label="Tendencia mensual de alojamientos">Tendencia mensual</canvas></div>
+      <div class="card-title">Reservas creadas por mes · Oct 2024 – Ago 2026</div>
+      <div class="card-note">⚠ No se recibieron reportes entre el 20 de julio y el 16 de agosto de 2026. Las cifras de jul y ago 2026 cubren solo una parte del mes (19 y 7 días respectivamente) y no deben leerse como una caída real de demanda.</div>
+      <div style="position:relative;height:190px;"><canvas id="cTrend" role="img" aria-label="Tendencia mensual de reservas">Tendencia mensual de reservas</canvas></div>
+    </div>
+
+    <div class="sec">Evolución por período</div>
+    <div class="card">
+      <div class="card-title">Composición porcentual del estatus de reserva por período</div>
+      <div class="leg">
+        <span class="leg-i"><span class="leg-d" style="background:#7F77DD"></span>P1 Oct 24 – Nov 25</span>
+        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>P2 Dic 25 – May 26</span>
+        <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>P3 Jun – Jul 26*</span>
+      </div>
+      <div style="position:relative;height:210px;"><canvas id="cPeriodo" role="img" aria-label="Comparativo por período">3 períodos comparados por porcentaje</canvas></div>
+      <div class="card-note" style="margin-top:10px;margin-bottom:0;">* P3 incluye reservas creadas solo hasta el 19 de julio 2026 (cobertura parcial); su mayor % de "En proceso" refleja reservas aún sin resolver al momento del corte, no un cambio de comportamiento. La tasa de Cancelada/Rechazada viene bajando de forma sostenida: 44.4% → 39.2% → 34.6%.</div>
     </div>
 
     <div class="sec">Distribución geográfica</div>
     <div class="card">
-      <div class="card-title">Top 15 estados por número de alojamientos</div>
-      <div style="position:relative;height:440px;"><canvas id="cEstados" role="img" aria-label="Top 15 estados">Estados Venezuela</canvas></div>
+      <div class="card-title">Top 15 estados por número de reservas</div>
+      <div style="position:relative;height:440px;"><canvas id="cEstados" role="img" aria-label="Top 15 estados por reservas">Estados Venezuela por reservas</canvas></div>
     </div>
 
-    <div class="sec" style="margin-top:1.25rem;">Status por estado (top 8)</div>
+    <div class="sec" style="margin-top:1.25rem;">Estatus por estado (top 8)</div>
     <div class="card">
-      <div class="card-title">Composición por status en los principales estados</div>
+      <div class="card-title">Composición del estatus de reserva en los principales estados</div>
       <div class="leg">
-        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Publicado</span>
-        <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Borrador</span>
-        <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Pausado</span>
-        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Suspendido</span>
+        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Completada</span>
+        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Cancelada/Rechazada</span>
+        <span class="leg-i"><span class="leg-d" style="background:#EF9F27"></span>Vencida</span>
+        <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>En proceso</span>
       </div>
-      <div style="position:relative;height:320px;"><canvas id="cEstadoStatus" role="img" aria-label="Status por estado top 8">Status por estado</canvas></div>
+      <div style="position:relative;height:320px;"><canvas id="cEstadoStatus" role="img" aria-label="Estatus por estado top 8">Estatus por estado</canvas></div>
     </div>
 
-    <div class="sec">Plataformas externas y sincronización</div>
+    <div class="sec">Cuotas y descuentos</div>
     <div class="g2">
       <div class="card">
-        <div class="card-title">Presencia en otras plataformas</div>
+        <div class="card-title">Reservas pagadas en cuotas</div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:#534AB7"></span>Sí · 1,714 (64.6%)</span>
-          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 939 (35.4%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#534AB7"></span>Sí · 423 (3.1%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 13,141 (96.9%)</span>
         </div>
-        <div style="position:relative;height:175px;"><canvas id="cPlat" role="img" aria-label="Presencia otras plataformas">Sí 1714, No 939</canvas></div>
+        <div style="position:relative;height:175px;"><canvas id="cCuotas" role="img" aria-label="Pago en cuotas">Sí 423, No 13141</canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">Sincronización de calendarios</div>
+        <div class="card-title">Reservas con descuento aplicado</div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Sí · 474 (17.9%)</span>
-          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 2,179 (82.1%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Sí · 259 (1.9%)</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>No · 13,305 (98.1%)</span>
         </div>
-        <div style="position:relative;height:175px;"><canvas id="cSinc" role="img" aria-label="Sincronización calendarios">Sí 474, No 2179</canvas></div>
+        <div style="position:relative;height:175px;"><canvas id="cDescuento" role="img" aria-label="Aplicó descuento">Sí 259, No 13305</canvas></div>
       </div>
     </div>
 
-    <div class="sec">Análisis de riesgo · doble booking</div>
+    <div class="sec">Análisis de riesgo · reservas no cobradas</div>
     <div class="card" style="margin-bottom:12px;">
-      <div class="card-title">Cruce: presencia en otras plataformas vs sincronización de calendario</div>
+      <div class="card-title">Cruce: estatus de la reserva vs. estatus del pago</div>
       <div class="cruce-grid">
         <div class="cx" style="background:var(--c-pub-bg);">
-          <div class="cx-val" style="color:var(--c-pub);">424</div>
-          <div class="cx-lbl">En otras plataformas<br><strong>y sincronizados</strong></div>
+          <div class="cx-val" style="color:var(--c-pub);">3,284</div>
+          <div class="cx-lbl">Completadas<br><strong>y pagadas en su totalidad</strong></div>
           <div class="cx-badge" style="background:#C6EFE0;color:#0F6E56;">✓ Sin riesgo</div>
         </div>
         <div class="cx" style="background:var(--c-sus-bg);">
-          <div class="cx-val" style="color:var(--c-sus);">1,290</div>
-          <div class="cx-lbl">En otras plataformas<br><strong>SIN sincronizar</strong></div>
-          <div class="cx-badge" style="background:#FECACA;color:#991B1B;">⚠ Riesgo doble booking</div>
+          <div class="cx-val" style="color:var(--c-sus);">3,621</div>
+          <div class="cx-lbl">Vencidas<br><strong>sin haber recibido pago</strong></div>
+          <div class="cx-badge" style="background:#FECACA;color:#991B1B;">⚠ Ingreso potencial perdido</div>
         </div>
         <div class="cx" style="background:var(--c-pau-bg);">
-          <div class="cx-val" style="color:var(--c-pau);">50</div>
-          <div class="cx-lbl">Sin otras plataformas<br><strong>pero sincronizados</strong></div>
-          <div class="cx-badge" style="background:#BFDBFE;color:#1E40AF;">ℹ Revisar config.</div>
+          <div class="cx-val" style="color:var(--c-pau);">5,553</div>
+          <div class="cx-lbl">Canceladas/Rechazadas<br><strong>antes de recibir cobro</strong></div>
+          <div class="cx-badge" style="background:#BFDBFE;color:#1E40AF;">ℹ Esperado, sin pérdida real</div>
         </div>
         <div class="cx" style="background:#F1EFE8;">
-          <div class="cx-val" style="color:#888780;">889</div>
-          <div class="cx-lbl">Sin otras plataformas<br><strong>no sincronizados</strong></div>
-          <div class="cx-badge" style="background:#E4E2DA;color:#5F5E5A;">Canal único</div>
+          <div class="cx-val" style="color:#888780;">1,106</div>
+          <div class="cx-lbl">Otras combinaciones<br><strong>(en proceso, parciales, etc.)</strong></div>
+          <div class="cx-badge" style="background:#E4E2DA;color:#5F5E5A;">Casos mixtos</div>
         </div>
       </div>
       <div class="alert-s">
-        <strong>Alerta crítica:</strong> 1,290 alojamientos (48.6% del portafolio) operan en otras plataformas sin sincronización de calendario activa — exposición directa a conflictos de reserva.
+        <strong>Alerta:</strong> 3,621 reservas (26.7% del total) vencieron sin haber recibido pago — equivalen a $931,509 en ingresos potenciales no cobrados. Esta tasa se ha mantenido estable entre 26% y 27% en los tres períodos analizados, lo que sugiere un problema estructural en el proceso de confirmación/cobro, no un evento aislado reciente.
       </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Riesgo de doble booking por status del alojamiento</div>
-      <div class="leg">
-        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Otras plat. + sinc.</span>
-        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Otras plat. sin sinc.</span>
-        <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>Sin otras plat. + sinc.</span>
-        <span class="leg-i"><span class="leg-d" style="background:#B4B2A9"></span>Sin otras plat. sin sinc.</span>
-      </div>
-      <div style="position:relative;height:225px;"><canvas id="cCruce" role="img" aria-label="Cruce plataformas sincronizacion por status">Cruce por status</canvas></div>
     </div>
 
-    <div class="sec">Anfitriones</div>
+    <div class="sec">Viajeros y anfitriones</div>
     <div class="g2">
       <div class="card">
-        <div class="card-title">Top 10 anfitriones por alojamientos</div>
+        <div class="card-title">Top 10 anfitriones por número de reservas</div>
         <table class="top-t"><tbody id="top10body"></tbody></table>
       </div>
       <div class="card">
-        <div class="card-title">Distribución por tamaño de portafolio</div>
+        <div class="card-title">Viajeros por frecuencia de reserva</div>
         <div class="leg">
-          <span class="leg-i"><span class="leg-d" style="background:#B5D4F4"></span>Solo 1 · 77.3%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>2–5 · 20.7%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#185FA5"></span>6–10 · 1.6%</span>
-          <span class="leg-i"><span class="leg-d" style="background:#0C447C"></span>11+ · 0.4%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#B5D4F4"></span>Solo 1 · 50.3%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#378ADD"></span>2–3 · 31.5%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#185FA5"></span>4–5 · 9.6%</span>
+          <span class="leg-i"><span class="leg-d" style="background:#0C447C"></span>6+ · 8.6%</span>
         </div>
-        <div style="position:relative;height:185px;"><canvas id="cAnfDist" role="img" aria-label="Distribución anfitriones">Distribución portafolio</canvas></div>
+        <div style="position:relative;height:185px;"><canvas id="cViajFreq" role="img" aria-label="Distribución de viajeros por frecuencia">Distribución de frecuencia de viajeros</canvas></div>
         <div style="margin-top:12px;padding:9px 12px;background:var(--c-bg);border-radius:var(--radius-sm);font-size:11px;color:var(--c-muted);">
-          <strong style="color:var(--c-text);">1,783</strong> anfitriones únicos · promedio <strong style="color:var(--c-text);">1.49</strong> alojamientos por anfitrión
+          <strong style="color:var(--c-text);">5,389</strong> viajeros únicos · promedio <strong style="color:var(--c-text);">2.52</strong> reservas por viajero
         </div>
       </div>
-    </div>
-
-    <div class="sec">Onboarding</div>
-    <div class="card" style="max-width:400px;">
-      <div class="card-title">Dirección de facturación asignada</div>
-      <div class="leg">
-        <span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>Sin asignar · 2,470 (93.1%)</span>
-        <span class="leg-i"><span class="leg-d" style="background:#1D9E75"></span>Asignada · 183 (6.9%)</span>
-      </div>
-      <div style="position:relative;height:175px;"><canvas id="cFact" role="img" aria-label="Dirección de facturación">Facturación asignada 183, sin asignar 2470</canvas></div>
     </div>
 
     <p style="margin-top:3rem;font-size:11px;color:var(--c-hint);text-align:center;">
-      Datos consolidados de 3 períodos · 2,653 alojamientos · 1,783 anfitriones únicos · Actualizado ago 2026
+      Datos consolidados de 6 reportes (03 oct 2024 – 23 ago 2026) · 13,564 reservas · 5,389 viajeros únicos · 1,157 anfitriones únicos · Actualizado ago 2026
     </p>
   </main>
 </div>
 
 <script>
-const HASH = "84642d5e6cbfdd10c7158f74a95839c6b73e930d6e1c9c8cd4ac285a09acf83e";
+const HASH = "4fb80c24c16636e90aea37f1bf4191d662b79a80ae58c1508f46ea0ca7e1d6df";
 
 async function sha256(msg) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(msg));
@@ -333,96 +328,82 @@ function buildCharts() {
   const gc = {responsive:true,maintainAspectRatio:false};
   const gr = {color:"rgba(128,128,128,0.1)"};
 
-  new Chart(document.getElementById("cStatus"),{
+  new Chart(document.getElementById("cEstatusReserva"),{
     type:"doughnut",
-    data:{labels:["Publicado","Borrador","Pausado","Suspendido"],datasets:[{data:[1382,629,341,301],backgroundColor:["#1D9E75","#EF9F27","#378ADD","#E24B4A"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    data:{labels:["Completada","Rechazada","Cancelada","Vencida","En proceso/Otros"],datasets:[{data:[4035,2980,2694,3627,228],backgroundColor:["#1D9E75","#EF9F27","#378ADD","#E24B4A","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
     options:{...gc,cutout:"62%",plugins:{legend:{display:false}}}
   });
 
-  new Chart(document.getElementById("cPeriod"),{
-    type:"bar",
-    data:{
-      labels:["Publicado","Borrador","Pausado","Suspendido"],
-      datasets:[
-        {label:"P1",data:[815,350,273,254],backgroundColor:"#7F77DD"},
-        {label:"P2",data:[499,244,66,47],backgroundColor:"#1D9E75"},
-        {label:"P3",data:[68,35,2,0],backgroundColor:"#EF9F27"}
-      ]
-    },
-    options:{...gc,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:11}},grid:gr},y:{grid:gr,ticks:{font:{size:11}}}}}
+  new Chart(document.getElementById("cEstatusPago"),{
+    type:"doughnut",
+    data:{labels:["Por Pagar","Completado","Otros"],datasets:[{data:[9860,3590,114],backgroundColor:["#B4B2A9","#1D9E75","#534AB7"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    options:{...gc,cutout:"62%",plugins:{legend:{display:false}}}
   });
 
   new Chart(document.getElementById("cTrend"),{
     type:"line",
     data:{
-      labels:["Ago 24", "Sep 24", "Oct 24", "Nov 24", "Dic 24", "Ene 25", "Feb 25", "Mar 25", "Abr 25", "May 25", "Jun 25", "Jul 25", "Ago 25", "Sep 25", "Oct 25", "Nov 25", "Dic 25", "Ene 26", "Feb 26", "Mar 26", "Abr 26", "May 26", "Jun 26", "Jul 26", "Ago 26"],
-      datasets:[{label:"Altas",data:[194, 326, 188, 137, 123, 158, 110, 88, 101, 83, 69, 115, 105, 85, 81, 79, 95, 74, 79, 109, 75, 79, 37, 37, 26],borderColor:"#378ADD",backgroundColor:"rgba(55,138,221,0.07)",tension:0.3,fill:true,pointRadius:3,pointHoverRadius:5,borderWidth:2}]},
+      labels:["Oct 24", "Nov 24", "Dic 24", "Ene 25", "Feb 25", "Mar 25", "Abr 25", "May 25", "Jun 25", "Jul 25", "Ago 25", "Sep 25", "Oct 25", "Nov 25", "Dic 25", "Ene 26", "Feb 26", "Mar 26", "Abr 26", "May 26", "Jun 26", "Jul 26*", "Ago 26*"],
+      datasets:[{label:"Reservas",data:[172, 374, 503, 206, 252, 334, 542, 245, 327, 632, 1097, 886, 874, 947, 1345, 903, 731, 845, 754, 612, 574, 217, 192],borderColor:"#378ADD",backgroundColor:"rgba(55,138,221,0.07)",tension:0.3,fill:true,pointRadius:3,pointHoverRadius:5,borderWidth:2}]},
     options:{...gc,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},autoSkip:false,maxRotation:45},grid:gr},y:{grid:gr,ticks:{font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById("cPeriodo"),{
+    type:"bar",
+    data:{
+      labels:["Completada","Cancelada/Rechazada","Vencida","En proceso"],
+      datasets:[
+        {label:"P1",data:[28.9,44.4,26.6,0.1],backgroundColor:"#7F77DD"},
+        {label:"P2",data:[32.6,39.2,27.0,1.2],backgroundColor:"#1D9E75"},
+        {label:"P3",data:[25.3,34.6,26.3,13.8],backgroundColor:"#EF9F27"}
+      ]
+    },
+    options:{...gc,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:11}},grid:gr},y:{grid:gr,ticks:{font:{size:11},callback:v=>v+"%"}}}}
   });
 
   new Chart(document.getElementById("cEstados"),{
     type:"bar",
     data:{
-      labels:["Nueva Esparta", "Miranda", "Falc\u00f3n", "Anzo\u00e1tegui", "Carabobo", "La Guaira", "M\u00e9rida", "Distrito Capital", "Aragua", "Lara", "T\u00e1chira", "Monagas", "Bol\u00edvar", "Zulia", "Sucre"],
-      datasets:[{label:"Alojamientos",data:[557, 400, 339, 260, 186, 169, 161, 152, 106, 58, 46, 43, 41, 38, 31],backgroundColor:"#534AB7",borderRadius:3}]},
+      labels:["Miranda", "Anzo\u00e1tegui", "Nueva Esparta", "Carabobo", "Distrito Capital", "La Guaira", "Falc\u00f3n", "M\u00e9rida", "Lara", "Aragua", "Zulia", "T\u00e1chira", "Monagas", "Bol\u00edvar", "Sucre"],
+      datasets:[{label:"Reservas",data:[2420, 1961, 1905, 1852, 1132, 1054, 908, 603, 414, 376, 309, 226, 158, 127, 54],backgroundColor:"#534AB7",borderRadius:3}]},
     options:{...gc,indexAxis:"y",plugins:{legend:{display:false}},scales:{x:{grid:gr,ticks:{font:{size:11}}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
   });
 
   new Chart(document.getElementById("cEstadoStatus"),{
     type:"bar",
     data:{
-      labels:["Nueva Esparta", "Miranda", "Falc\u00f3n", "Anzo\u00e1tegui", "Carabobo", "La Guaira", "M\u00e9rida", "Dto. Capital"],
+      labels:["Miranda", "Anzo\u00e1tegui", "Nueva Esparta", "Carabobo", "Distrito Capital", "La Guaira", "Falc\u00f3n", "M\u00e9rida"],
       datasets:[
-        {label:"Publicado",data:[297, 191, 156, 114, 98, 93, 100, 80],backgroundColor:"#1D9E75"},
-        {label:"Borrador",data:[113, 86, 116, 61, 37, 41, 30, 41],backgroundColor:"#EF9F27"},
-        {label:"Pausado",data:[72, 72, 28, 41, 32, 10, 20, 22],backgroundColor:"#378ADD"},
-        {label:"Suspendido",data:[75, 51, 39, 44, 19, 25, 11, 9],backgroundColor:"#E24B4A"}
+        {label:"Completada",data:[838, 496, 399, 652, 387, 316, 166, 154],backgroundColor:"#1D9E75"},
+        {label:"Cancelada/Rechazada",data:[939, 925, 844, 738, 495, 406, 467, 217],backgroundColor:"#E24B4A"},
+        {label:"Vencida",data:[600, 512, 609, 433, 231, 327, 268, 219],backgroundColor:"#EF9F27"},
+        {label:"En proceso",data:[43, 28, 53, 29, 19, 5, 7, 13],backgroundColor:"#378ADD"}
       ]
     },
     options:{...gc,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{font:{size:11}},grid:gr},y:{stacked:true,grid:gr,ticks:{font:{size:11}}}}}
   });
 
-  new Chart(document.getElementById("cPlat"),{
+  new Chart(document.getElementById("cCuotas"),{
     type:"doughnut",
-    data:{labels:["Sí","No"],datasets:[{data:[1714,939],backgroundColor:["#534AB7","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    data:{labels:["Sí","No"],datasets:[{data:[423,13141],backgroundColor:["#534AB7","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
     options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
   });
 
-  new Chart(document.getElementById("cSinc"),{
+  new Chart(document.getElementById("cDescuento"),{
     type:"doughnut",
-    data:{labels:["Sí","No"],datasets:[{data:[474,2179],backgroundColor:["#1D9E75","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
+    data:{labels:["Sí","No"],datasets:[{data:[259,13305],backgroundColor:["#1D9E75","#B4B2A9"],borderWidth:3,borderColor:"#FFFFFF"}]},
     options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
   });
 
-  new Chart(document.getElementById("cCruce"),{
-    type:"bar",
-    data:{
-      labels:["Publicado", "Borrador", "Pausado", "Suspendido"],
-      datasets:[
-        {label:"Otras plat. + sinc.",data:[360, 1, 32, 31],backgroundColor:"#1D9E75"},
-        {label:"Otras plat. sin sinc.",data:[625, 302, 194, 169],backgroundColor:"#E24B4A"},
-        {label:"Sin otras plat. + sinc.",data:[44, 0, 3, 3],backgroundColor:"#378ADD"},
-        {label:"Sin otras plat. sin sinc.",data:[353, 326, 112, 98],backgroundColor:"#B4B2A9"}
-      ]
-    },
-    options:{...gc,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:gr,ticks:{font:{size:11}}},y:{stacked:true,grid:gr,ticks:{font:{size:11}}}}}
-  });
-
-  new Chart(document.getElementById("cAnfDist"),{
+  new Chart(document.getElementById("cViajFreq"),{
     type:"doughnut",
     data:{
-      labels:["Solo 1","2–5 aloj.","6–10 aloj.","11+ aloj."],
-      datasets:[{data:[1378, 369, 28, 8],backgroundColor:["#B5D4F4","#378ADD","#185FA5","#0C447C"],borderWidth:3,borderColor:"#FFFFFF"}]},
+      labels:["Solo 1","2–3 reservas","4–5 reservas","6+ reservas"],
+      datasets:[{data:[2713, 1695, 518, 463],backgroundColor:["#B5D4F4","#378ADD","#185FA5","#0C447C"],borderWidth:3,borderColor:"#FFFFFF"}]},
     options:{...gc,cutout:"55%",plugins:{legend:{display:false}}}
   });
 
-  new Chart(document.getElementById("cFact"),{
-    type:"doughnut",
-    data:{labels:["Sin asignar","Asignada"],datasets:[{data:[2470,183],backgroundColor:["#E24B4A","#1D9E75"],borderWidth:3,borderColor:"#FFFFFF"}]},
-    options:{...gc,cutout:"58%",plugins:{legend:{display:false}}}
-  });
-
-  const top10 = [["Rob Viloria", 34], ["HyH Asesor\u00eda Inmobiliaria", 24], ["Eduardo Escalona", 16], ["Maria eugenia", 14], ["Jose Rincon", 12], ["Valeria Gonzalez", 11], ["GoUppers LLC", 11], ["Jasmin Rojas", 11], ["Ordalys Villafa\u00f1e", 10], ["Livia Ramos", 9]];
+  const top10 = [["Gustavo Miguel De Almeida Oma\u00f1a", 265], ["Rob Viloria", 221], ["HyH Asesor\u00eda Inmobiliaria", 157], ["Gabriel Gomez", 119], ["Karla Guzman", 112], ["F\u00e9lix Duque", 103], ["Ashly Contreras", 100], ["Sonia Bertinato", 98], ["Alba Carolina Castillo Martucci", 89], ["Leni Ramirez", 88]];
   const colors10 = ["#534AB7","#7F77DD","#AFA9EC","#1D9E75","#5DCAA5","#378ADD","#85B7EB","#EF9F27","#FAC775","#E24B4A"];
   const maxV = top10[0][1];
   const tbody = document.getElementById("top10body");
