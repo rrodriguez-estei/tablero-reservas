@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Reservas — Oct 2024 a Jul 2026</title>
+<title>Dashboard de Reservas — Oct 2024 a Ago 2026</title>
 <style>
   :root{
     --bg-primary:#f7f7f5; --bg-secondary:#ffffff; --bg-tertiary:#eeeeec;
@@ -95,26 +95,26 @@
 
   <header>
     <h1>Dashboard de Reservas</h1>
-    <p>Periodo analizado: 3 octubre 2024 — 25 agosto 2026 · 14,311 reservas registradas</p>
-    <span class="updated-badge">Actualizado con datos al 25 de agosto de 2026</span>
+    <p>Periodo analizado: 3 octubre 2024 — 31 agosto 2026 · 14,433 reservas registradas</p>
+    <span class="updated-badge">Actualizado con datos al 31 de agosto de 2026</span>
   </header>
 
   <p class="section-title">Indicadores generales</p>
   <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-label">Total de reservas</div><div class="kpi-value">14,311</div></div>
-    <div class="kpi accent-green"><div class="kpi-label">Reservas efectivas (Finalizada)</div><div class="kpi-value">3,335</div><div class="kpi-sub">23.3% de conversión</div></div>
-    <div class="kpi accent-blue"><div class="kpi-label">Ingreso efectivo total</div><div class="kpi-value">$733,889</div><div class="kpi-sub">solo reservas finalizadas</div></div>
-    <div class="kpi"><div class="kpi-label">Ticket promedio</div><div class="kpi-value">$220.06</div><div class="kpi-sub">2.94 noches promedio</div></div>
+    <div class="kpi"><div class="kpi-label">Total de reservas</div><div class="kpi-value">14,433</div></div>
+    <div class="kpi accent-green"><div class="kpi-label">Reservas efectivas (Finalizada)</div><div class="kpi-value">3,339</div><div class="kpi-sub">23.1% de conversión</div></div>
+    <div class="kpi accent-blue"><div class="kpi-label">Ingreso efectivo total</div><div class="kpi-value">$734,104</div><div class="kpi-sub">solo reservas finalizadas</div></div>
+    <div class="kpi"><div class="kpi-label">Ticket promedio</div><div class="kpi-value">$219.86</div><div class="kpi-sub">2.94 noches promedio</div></div>
     <div class="kpi"><div class="kpi-label">Viajeros únicos</div><div class="kpi-value">5,650</div></div>
     <div class="kpi"><div class="kpi-label">Anfitriones únicos</div><div class="kpi-value">1,180</div></div>
     <div class="kpi accent-green"><div class="kpi-label">Reservas / viajero / mes</div><div class="kpi-value">1.96</div><div class="kpi-sub">promedio global</div></div>
     <div class="kpi accent-amber"><div class="kpi-label">Crecimiento finalizadas</div><div class="kpi-value">+193%</div><div class="kpi-sub">2do periodo vs 1er periodo</div></div>
     <div class="kpi"><div class="kpi-label">Noches promedio por reserva (general)</div><div class="kpi-value">3.00</div><div class="kpi-sub">todas las reservas, cualquier estatus</div></div>
-    <div class="kpi accent-blue"><div class="kpi-label">Noches promedio (últimos 30 días)</div><div class="kpi-value">2.65</div><div class="kpi-sub">27 jul – 25 ago 2026</div></div>
+    <div class="kpi accent-blue"><div class="kpi-label">Noches promedio (24–31 ago 2026)</div><div class="kpi-value">2.75</div><div class="kpi-sub">ventana recalculada del reporte más reciente</div></div>
   </div>
 
   <div class="callout">
-    <b>Aceleración sostenida.</b> El promedio mensual de reservas finalizadas pasó de <b>69.2/mes</b> (oct 2024 – jun 2025) a <b>202.6/mes</b> (jul 2025 – jul 2026), un salto del <b>+193%</b>. Diciembre 2025 sigue siendo el mes pico histórico con 1,345 reservas creadas y $74,904 en ingresos efectivos. Agosto 2026 ahora cubre hasta el día 25 (644 creadas, 24 finalizadas hasta el corte) — sigue siendo un mes parcial, así que sus cifras aún crecerán en la próxima actualización.
+    <b>Aceleración sostenida.</b> El promedio mensual de reservas finalizadas pasó de <b>69.2/mes</b> (oct 2024 – jun 2025) a <b>202.6/mes</b> (jul 2025 – jul 2026), un salto del <b>+193%</b>. Diciembre 2025 sigue siendo el mes pico histórico con 1,345 reservas creadas y $74,904 en ingresos efectivos. Agosto 2026 ahora cubre hasta el día 31 (766 creadas, 28 finalizadas hasta el corte) — el volumen de reservas creadas del mes ya está prácticamente completo, aunque el conteo de finalizadas seguirá creciendo mientras se cierran los checkouts y calificaciones pendientes.
   </div>
 
   <p class="section-title">Reservas por estatus</p>
@@ -124,16 +124,16 @@
       <div style="position:relative; height:220px;"><canvas id="statusCountChart"></canvas></div>
       <div style="position:relative; height:220px;"><canvas id="statusMontoChart"></canvas></div>
     </div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">* El alto monto de "Vencida" ($15.27M) refleja reservas que nunca completaron el pago — no representa ingreso real. El ingreso real corresponde a "Finalizada" ($700,421).</p>
+    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">* El alto monto de "Vencida" ($15.34M) refleja reservas que nunca completaron el pago — no representa ingreso real. El ingreso real corresponde a "Finalizada" ($734,104).</p>
   </div>
 
   <p class="section-title">Actividad reciente — últimos 30 días</p>
   <div class="chart-card full">
     <div class="chart-title">Reservas diarias por estatus</div>
-    <div class="chart-subtitle">27 julio – 25 agosto 2026 · barras apiladas por estatus + línea de total · excluye reservas Finalizadas</div>
+    <div class="chart-subtitle">2 agosto – 31 agosto 2026 · barras apiladas por estatus + línea de total · excluye reservas Finalizadas</div>
     <div class="legend" id="dailyLeg"></div>
     <div style="position:relative; height:300px;"><canvas id="dailyStatusChart"></canvas></div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">Total del periodo (sin Finalizadas): 638 reservas · Vencida 225 · Rechazada 179 · Cancelada 109 · Esperando Calificación 51 · Otros 28 · Aprobada 24 · Cerrada 22.</p>
+    <p style="font-size:11px; color:var(--text-tertiary); margin-top:10px;">Total del periodo (sin Finalizadas): 658 reservas · Vencida 211 · Rechazada 175 · Cancelada 114 · Esperando Calificación 64 · Otros 32 · Aprobada 36 · Cerrada 26.</p>
   </div>
 
   <div class="chart-row">
@@ -169,10 +169,10 @@
   <div class="chart-row">
     <div class="chart-card">
       <div class="kpi-grid" style="grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Total aplicados</div><div class="kpi-value" style="font-size:18px;">269</div></div>
-        <div class="kpi accent-green" style="padding:10px 12px;"><div class="kpi-label">En efectivas</div><div class="kpi-value" style="font-size:18px;">129</div><div class="kpi-sub">48.0% conversión</div></div>
-        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Códigos únicos</div><div class="kpi-value" style="font-size:18px;">148</div></div>
-        <div class="kpi accent-amber" style="padding:10px 12px;"><div class="kpi-label">No convirtieron</div><div class="kpi-value" style="font-size:18px;">140</div><div class="kpi-sub">52.0% sin efecto</div></div>
+        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Total aplicados</div><div class="kpi-value" style="font-size:18px;">272</div></div>
+        <div class="kpi accent-green" style="padding:10px 12px;"><div class="kpi-label">En efectivas</div><div class="kpi-value" style="font-size:18px;">129</div><div class="kpi-sub">47.4% conversión</div></div>
+        <div class="kpi" style="padding:10px 12px;"><div class="kpi-label">Códigos únicos</div><div class="kpi-value" style="font-size:18px;">150</div></div>
+        <div class="kpi accent-amber" style="padding:10px 12px;"><div class="kpi-label">No convirtieron</div><div class="kpi-value" style="font-size:18px;">143</div><div class="kpi-sub">52.6% sin efecto</div></div>
       </div>
     </div>
     <div class="chart-card">
@@ -210,10 +210,10 @@
       <span><span class="legend-dot" style="background:#378ADD"></span>Promedio mensual</span>
       <span><span class="legend-dot" style="background:#888780"></span>Promedio global (1.96)</span>
     </div>
-    <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">* Agosto 2026 (1.87) cubre hasta el día 25 y aún no es comparable a un mes completo — sus cifras seguirán ajustándose en la próxima actualización.</p>
+    <p style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">* Agosto 2026 (1.87) no se recalculó en este gráfico: el tablero solo conserva cifras agregadas, no el listado de viajeros únicos por mes, así que esta razón queda pendiente de ajuste en la próxima actualización con datos completos.</p>
   </div>
 
-  <footer>Dashboard generado a partir de 6 archivos de reservas (oct 2024 – ago 2026), deduplicados por número de reserva · 14,311 registros únicos</footer>
+  <footer>Dashboard generado a partir de 7 archivos de reservas (oct 2024 – ago 2026), deduplicados por número de reserva donde fue posible · 14,433 registros únicos (estimado)</footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -228,8 +228,8 @@ Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto
 
 const statusLabels = ["Vencida","Finalizada","Rechazada","Cancelada","Cerrada","Otros"];
 const statusColors = ['#888780','#1D9E75','#E24B4A','#D85A30','#378ADD','#7F77DD'];
-const statusCounts = [3879,3335,3126,2810,869,292];
-const statusMontos = [15336086.68,733888.57,779212.86,1046054.07,923250.03,96812.59];
+const statusCounts = [3910,3339,3147,2834,873,330];
+const statusMontos = [15343993.72,734103.62,782348.18,1050746.75,923260.38,106907.59];
 
 const leg = document.getElementById('statusLeg');
 statusLabels.forEach((l,i) => {
@@ -249,15 +249,15 @@ new Chart(document.getElementById('statusMontoChart'), {
   options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: $${Math.round(ctx.raw).toLocaleString()}` }}}}
 });
 
-const dailyLabels = ["27-Jul","28-Jul","29-Jul","30-Jul","31-Jul","01-Ago","02-Ago","03-Ago","04-Ago","05-Ago","06-Ago","07-Ago","08-Ago","09-Ago","10-Ago","11-Ago","12-Ago","13-Ago","14-Ago","15-Ago","16-Ago","17-Ago","18-Ago","19-Ago","20-Ago","21-Ago","22-Ago","23-Ago","24-Ago","25-Ago"];
+const dailyLabels = ["02-Ago","03-Ago","04-Ago","05-Ago","06-Ago","07-Ago","08-Ago","09-Ago","10-Ago","11-Ago","12-Ago","13-Ago","14-Ago","15-Ago","16-Ago","17-Ago","18-Ago","19-Ago","20-Ago","21-Ago","22-Ago","23-Ago","24-Ago","25-Ago","26-Ago","27-Ago","28-Ago","29-Ago","30-Ago","31-Ago"];
 const dailySeries = {
-  "Vencida":                [2,9,10,7,3,14,6,4,8,9,8,10,7,11,9,3,7,15,10,7,6,6,8,5,13,14,7,4,2,1],
-  "Aprobada":               [0,0,0,0,0,0,0,0,0,1,0,0,2,0,0,1,0,0,2,0,1,2,0,0,1,3,2,4,2,3],
-  "Rechazada":              [1,3,0,9,5,7,4,4,8,1,4,3,12,6,10,6,7,8,10,4,6,7,7,6,10,13,12,4,2,0],
-  "Cancelada":              [3,2,3,2,5,4,0,5,1,3,1,4,4,8,2,11,4,10,2,3,4,3,3,2,3,11,3,1,1,1],
-  "Cerrada":                [0,0,0,0,0,0,0,0,1,0,7,0,1,1,2,1,2,0,2,0,1,0,0,0,1,1,1,0,1,0],
-  "Esperando Calificación": [1,0,1,0,1,1,1,0,0,0,1,2,1,2,1,4,6,4,3,4,1,1,2,2,6,3,2,0,1,0],
-  "Otros":                  [0,0,2,1,2,0,0,0,0,0,0,1,3,0,1,3,0,0,0,2,2,0,1,2,2,2,3,1,0,0]
+  "Vencida":                [6,4,8,9,8,10,7,11,9,3,7,15,10,7,6,6,8,5,13,14,7,4,2,5,4,3,6,9,4,1],
+  "Aprobada":               [0,0,0,1,0,0,2,0,0,1,0,0,2,0,1,2,0,0,1,3,2,4,2,4,1,2,1,6,1,0],
+  "Rechazada":              [4,4,8,1,4,3,12,6,10,6,7,8,10,4,6,7,7,6,10,13,12,4,2,5,4,4,4,1,1,2],
+  "Cancelada":              [0,5,1,3,1,4,4,8,2,11,4,10,2,3,4,3,3,2,3,11,3,1,1,4,7,3,4,3,3,1],
+  "Cerrada":                [0,0,1,0,7,0,1,1,2,1,2,0,2,0,1,0,0,0,1,1,1,0,1,0,2,1,1,0,0,0],
+  "Esperando Calificación": [1,0,0,0,1,2,1,2,1,4,6,4,3,4,1,1,2,2,6,3,2,0,1,3,7,3,1,2,1,0],
+  "Otros":                  [0,0,0,0,0,1,3,0,1,3,0,0,0,2,2,0,1,2,2,2,3,1,0,3,1,0,2,3,0,0]
 };
 const dailyColors = {
   "Vencida":"#888780", "Aprobada":"#1D9E75", "Rechazada":"#E24B4A", "Cancelada":"#D85A30",
@@ -295,9 +295,9 @@ new Chart(document.getElementById('dailyStatusChart'), {
 });
 
 const monthlyLabels = ["2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"];
-const monthlyTotal = [172,374,503,207,252,342,547,245,345,634,1103,891,876,951,1345,903,733,851,754,612,574,453,644];
-const monthlyAprobada = [39,71,107,40,58,69,87,74,78,179,241,213,214,215,284,204,201,271,223,212,196,119,150];
-const monthlyMonto = [5837.71,12660.41,22837.56,6802.12,8100.99,12190.51,17883.53,13389.73,19645.4,53770.85,52638.14,51670.6,44431.23,47287.52,74903.53,49991.28,44500.7,63889.74,45392.64,35806.21,16727.83,16660.48,16869.86];
+const monthlyTotal = [172,374,503,207,252,342,547,245,345,634,1103,891,876,951,1345,903,733,851,754,612,574,453,766];
+const monthlyAprobada = [39,71,107,40,58,69,87,74,78,179,241,213,214,215,284,204,201,271,223,212,196,119,183];
+const monthlyMonto = [5837.71,12660.41,22837.56,6802.12,8100.99,12190.51,17883.53,13389.73,19645.4,53770.85,52638.14,51670.6,44431.23,47287.52,74903.53,49991.28,44500.7,63889.74,45392.64,35806.21,16727.83,16660.48,17084.91];
 
 new Chart(document.getElementById('monthlyChart'), {
   type:'bar',
@@ -317,7 +317,7 @@ new Chart(document.getElementById('montoChart'), {
 });
 
 const geoLabels = ["Miranda","Anzoátegui","Nueva Esparta","Carabobo","Distrito Capital","Falcón","La Guaira","Mérida","Lara","Aragua"];
-const geoCounts = [2542,2070,2010,1998,1188,932,912,644,440,392];
+const geoCounts = [2567,2094,2026,2010,1194,946,912,655,442,398];
 new Chart(document.getElementById('geoChart'), {
   type:'bar',
   data:{ labels:geoLabels, datasets:[{ data:geoCounts, backgroundColor:'#378ADD', borderRadius:3 }] },
@@ -326,7 +326,7 @@ new Chart(document.getElementById('geoChart'), {
 });
 
 const dowLabels = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
-const dowCounts = [351,362,397,509,758,646,312];
+const dowCounts = [351,363,398,510,758,647,312];
 new Chart(document.getElementById('dowChart'), {
   type:'bar',
   data:{ labels:dowLabels, datasets:[{ data:dowCounts, backgroundColor:['#378ADD','#378ADD','#378ADD','#378ADD','#1D9E75','#1D9E75','#378ADD'], borderRadius:3 }] },
@@ -361,7 +361,7 @@ new Chart(document.getElementById('anfitrionChart'), {
 });
 
 const travLabels = ["Estei Empresas","Carlos Marcano","VIAJES HUMBOLDT","Salomon Martinez","rossaly orellana","Kenji Martinez","Braian Antypas","Acxel Michalczuk"];
-const travValues = [108,48,44,43,40,37,36,34];
+const travValues = [109,48,44,43,40,37,36,34];
 new Chart(document.getElementById('viajeroChart'), {
   type:'bar',
   data:{ labels:travLabels, datasets:[{ data:travValues, backgroundColor:'#7F77DD', borderRadius:3 }] },
